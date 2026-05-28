@@ -17,6 +17,7 @@
   --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .page{display:none;min-height:100vh;flex-direction:column}
 .page.active{display:flex}
@@ -104,10 +105,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 /* ====== DASHBOARD ====== */
 #pg-dash{background:var(--bg);padding:0 0 80px}
 .dash-top{background:linear-gradient(135deg,#1A0A2E,#2D1B69,#6C63FF);padding:20px 18px 22px;position:relative;overflow:hidden}
-.dash-top::after{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,.05);border-radius:50%}
-.dash-top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.dash-top::after{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,.05);border-radius:50%;pointer-events:none}
+.dash-top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;position:relative;z-index:5}
 .dash-top-row h2{font-family:'Fredoka One',cursive;font-size:1.15rem;flex:1}
-.logout-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:6px 12px;color:white;font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;cursor:pointer}
+.logout-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:6px 12px;color:white;font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;position:relative;z-index:10}
 .pts-row{display:flex;gap:8px}
 .pts-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:10px 12px;flex:1;text-align:center;backdrop-filter:blur(10px)}
 .pts-chip .pv{font-family:'Fredoka One',cursive;font-size:1.35rem;line-height:1;background:linear-gradient(135deg,#fff,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
