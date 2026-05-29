@@ -454,9 +454,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   </div>
   <div id="dash-content">
     <div class="day-sel">
-      <button class="day-nav" id="day-prev" onclick="changeDay(-1)" style="display:none">◀</button>
+      <button class="day-nav" id="day-prev" onclick="changeDay(-1)">◀</button>
       <span id="day-label">1-күн</span>
-      <button class="day-nav" id="day-next" onclick="changeDay(1)" style="display:none">▶</button>
+      <button class="day-nav" id="day-next" onclick="changeDay(1)">▶</button>
     </div>
     <div class="sec-title">📋 Тапсырмалар</div>
     <div class="tasks-list" id="tasks-list"></div>
@@ -831,12 +831,13 @@ function renderDash(){
     var mx=0;dt.forEach(function(t){mx+=t.pts;});
     var dmax=document.getElementById('dash-max');
     if(dmax)dmax.textContent=mx+' ₸';
+    var vd=viewDay||cu.currentDay||1;
     var dlbl=document.getElementById('day-label');
-    if(dlbl)dlbl.textContent=(cu.currentDay||1)+'-күн ('+(cu.currentDay||1)+'/30)';
+    if(dlbl)dlbl.textContent=vd+'-күн ('+vd+'/'+(cu.currentDay||1)+')';
     var dprev=document.getElementById('day-prev');
     var dnext=document.getElementById('day-next');
-    if(dprev)dprev.disabled=((cu.currentDay||1)<=1);
-    if(dnext)dnext.disabled=((cu.currentDay||1)>=30);
+    if(dprev)dprev.disabled=(vd<=1);
+    if(dnext)dnext.disabled=(vd>=(cu.currentDay||1));
     updateTrialUI();
     var ls=document.getElementById('locked-section');
     var dls=document.getElementById('day-locked-section');
@@ -855,11 +856,30 @@ function renderDash(){
   }catch(e){console.log('renderDash error:',e);}
 }
 
+var viewDay=0; // 0 means use cu.currentDay
+
 function changeDay(dir){
   if(!cu)return;
-  cu.currentDay=Math.max(1,Math.min(30,(cu.currentDay||1)+dir));
+  var vd=(viewDay||cu.currentDay)+dir;
+  vd=Math.max(1,Math.min(cu.currentDay,vd)); // Can't go beyond current day
+  viewDay=vd;
   renderDash();
 }
+
+function renderTaskList(){
+  var day=viewDay||cu.currentDay;
+  var dt=ALL_TASKS[String(cu.grade)][String(day)]||[];
+  curDayTasks=dt;
+  var tl={tf:'Дұрыс/Қате',choice:'Тест',write:'Жазу',input:'Есеп'};
+  var tc={tf:'tag-tf',choice:'tag-choice',write:'tag-write',input:'tag-write'};
+  var el=document.getElementById('tasks-list');el.innerHTML='';
+  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks[t.id];});
+  if(allDone&&day<cu.currentDay){
+    var doneDiv=document.createElement('div');
+    doneDiv.style.cssText='background:rgba(67,233,123,.1);border:1px solid rgba(67,233,123,.25);border-radius:14px;padding:14px;text-align:center;margin-bottom:10px;';
+    doneDiv.innerHTML='<div style="font-size:1.8rem;margin-bottom:4px">✅</div><div style="font-family:Fredoka One,cursive;font-size:.95rem;color:#43e97b">'+day+'-күн аяқталды!</div>';
+    el.appendChild(doneDiv);
+  }
 
 function applyPromo(){
   var code=(document.getElementById('promo-inp').value||'').trim().toUpperCase();
@@ -913,6 +933,7 @@ function doRegister(){
       cu.currentDay=parseInt(cu.currentDay)||1;
       if(cu.currentDay<1||cu.currentDay>30) cu.currentDay=1;
       localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+      viewDay=0;
       try{renderDash();}catch(e){console.log('renderDash error:',e);}
       goPage('pg-dash');
       showSync('✅ Қош келдің, '+cu.name+'!',false);
