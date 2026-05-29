@@ -8,111 +8,79 @@
 <title>Kidstopia Summer Camp</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
-:root{
-  --c1:#6C63FF;--c2:#FF6584;--c3:#43E97B;--c4:#38F9D7;
-  --c5:#FA8231;--c6:#A29BFE;--c7:#FD79A8;--c8:#FFD700;
-  --bg:#0A0A1A;--bg2:#12122A;--card:#1A1A35;--card2:#22224A;
-  --text:#FFFFFF;--muted:rgba(255,255,255,.55);
-  --glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.1);
-  --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
-}
+:root{--c1:#6C63FF;--c2:#FF6584;--c3:#43E97B;--c4:#FFD700;--c5:#FA8231;--c6:#A29BFE;--c7:#FD79A8;--bg:#0A0A1A;--card:#1A1A35;--card2:#22224A;--text:#FFF;--muted:rgba(255,255,255,.55);--glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.1);--border:rgba(255,255,255,.09)}
 *{box-sizing:border-box;margin:0;padding:0}
-button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer;}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text)}
+button{touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);cursor:pointer;font-family:'Nunito',sans-serif}
+input,textarea{-webkit-user-select:text!important;user-select:text!important;font-family:'Nunito',sans-serif}
 .page{display:none;min-height:100vh;flex-direction:column}
 .page.active{display:flex}
-.sync-bar{background:linear-gradient(90deg,#43E97B,#38F9D7);color:#0A0A1A;text-align:center;padding:7px;font-size:.78rem;font-weight:800;display:none;position:sticky;top:0;z-index:100}
+.sync-bar{background:linear-gradient(90deg,#43E97B,#38F9D7);color:#0A0A1A;text-align:center;padding:7px;font-size:.78rem;font-weight:800;display:none;position:sticky;top:0;z-index:200;letter-spacing:.3px}
 .sync-bar.show{display:block}
-.sync-bar.error{background:linear-gradient(90deg,#FF6584,#FA8231);color:white}
+.sync-bar.error{background:linear-gradient(90deg,#FF6584,#FA8231);color:#fff}
 
-/* ====== WELCOME ====== */
-#pg-welcome{background:linear-gradient(160deg,#0A0A1A 0%,#12122A 40%,#1A0A2E 100%);padding:0 0 32px;position:relative;overflow:hidden;min-height:100vh}
-#pg-welcome::before{content:'';position:absolute;top:-100px;right:-100px;width:350px;height:350px;background:radial-gradient(circle,rgba(108,99,255,.18),transparent 65%);pointer-events:none}
-#pg-welcome::after{content:'';position:absolute;bottom:-80px;left:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(255,101,132,.12),transparent 65%);pointer-events:none}
-
-/* TOP BAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 0;position:relative;z-index:2}
-.brand{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--text)}
+/* ===WELCOME=== */
+#pg-welcome{background:linear-gradient(160deg,#0A0A1A,#12122A,#1A0A2E);overflow-y:auto;padding-bottom:32px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;position:relative;z-index:20}
+.brand{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#fff}
 .brand span{color:#6C63FF}
-.topbar-icons{display:flex;gap:8px}
-.icon-btn{background:var(--glass2);border:1px solid var(--border2);border-radius:12px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;cursor:pointer;transition:all .2s;flex-shrink:0}
-.icon-btn:hover{background:rgba(108,99,255,.3);border-color:#6C63FF;transform:scale(1.05)}
-
-/* HERO */
-.hero{padding:20px 20px 16px;text-align:center;position:relative;z-index:2;pointer-events:none}
-.hero-emoji{font-size:3rem;display:block;margin-bottom:8px;animation:float 3s ease-in-out infinite;pointer-events:none}
+.icon-btn{background:var(--glass2);border:1px solid var(--border);border-radius:12px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;position:relative;z-index:20}
+.hero{padding:8px 20px 16px;text-align:center;position:relative;z-index:10;pointer-events:none}
+.hero-emoji{font-size:3rem;display:block;margin-bottom:8px;animation:float 3s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.hero-title{font-family:'Fredoka One',cursive;font-size:1.85rem;line-height:1.2;background:linear-gradient(135deg,#fff 0%,#A29BFE 60%,#FD79A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;pointer-events:none}
-.hero-sub{color:var(--muted);font-size:.84rem;font-weight:700;margin-top:5px;pointer-events:none}
-.hero-chips{display:flex;justify-content:center;gap:7px;margin-top:10px;flex-wrap:wrap;pointer-events:none}
+.hero-title{font-family:'Fredoka One',cursive;font-size:1.85rem;line-height:1.2;background:linear-gradient(135deg,#fff,#a29bfe,#fd79a8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--muted);font-size:.84rem;font-weight:700;margin-top:5px}
+.hero-chips{display:flex;justify-content:center;gap:7px;margin-top:10px;flex-wrap:wrap}
 .hero-chip{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:4px 11px;font-size:.7rem;font-weight:800;color:var(--muted)}
-
-/* GUIDE BANNER */
-.guide-banner{margin:0 18px 18px;background:linear-gradient(135deg,#2D1B69,#6C63FF);border-radius:20px;padding:15px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(108,99,255,.3);position:relative;overflow:hidden;border:1px solid rgba(108,99,255,.4);z-index:5}
-.guide-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:rgba(255,255,255,.07);border-radius:50%}
-.guide-banner:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(108,99,255,.45)}
-.gb-left{flex:1;position:relative;z-index:1}
-.gb-left h3{font-family:'Fredoka One',cursive;font-size:1rem;color:white}
+.guide-banner{margin:4px 18px 16px;background:linear-gradient(135deg,#2D1B69,#6C63FF);border-radius:20px;padding:15px 18px;display:flex;align-items:center;gap:14px;border:1px solid rgba(108,99,255,.4);position:relative;z-index:20;touch-action:manipulation}
+.gb-left{flex:1;pointer-events:none}
+.gb-left h3{font-family:'Fredoka One',cursive;font-size:1rem;color:#fff}
 .gb-left p{font-size:.73rem;color:rgba(255,255,255,.75);font-weight:700;margin-top:2px}
-.gb-arrow{display:inline-block;background:rgba(255,255,255,.18);border-radius:8px;padding:3px 10px;font-size:.72rem;font-weight:800;color:white;margin-top:6px}
-.gb-right{font-size:2rem;position:relative;z-index:1}
-
-/* GRADE */
-.section-lbl{font-size:.68rem;font-weight:800;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;padding:0 20px 9px;position:relative;z-index:5}
-.grade-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 14px;position:relative;z-index:5}
-.grade-btn{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:16px 10px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;overflow:hidden;z-index:5;touch-action:manipulation}
-.grade-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.03));border-radius:16px;pointer-events:none}
-.grade-btn:hover{transform:translateY(-3px)}
-.grade-btn:active{transform:scale(.97)}
-.gb-icon{font-size:1.75rem}
-.gb-name{font-family:'Fredoka One',cursive;font-size:.92rem}
-.gb-sub{font-size:.65rem;color:var(--muted);font-weight:700}
-.gb-pts{font-size:.62rem;font-weight:800;border-radius:7px;padding:2px 7px;margin-top:1px}
+.gb-arrow{display:inline-block;background:rgba(255,255,255,.18);border-radius:8px;padding:3px 10px;font-size:.72rem;font-weight:800;color:#fff;margin-top:6px}
+.gb-right{font-size:2rem;pointer-events:none}
+.section-lbl{font-size:.68rem;font-weight:800;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;padding:0 20px 9px;position:relative;z-index:20}
+.grade-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 14px;position:relative;z-index:20}
+.grade-btn{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:20;touch-action:manipulation;-webkit-tap-highlight-color:rgba(108,99,255,.2);transition:transform .15s,background .15s}
+.grade-btn:active{transform:scale(.96);background:rgba(108,99,255,.15)}
+.gb-icon{font-size:1.75rem;pointer-events:none}
+.gb-name{font-family:'Fredoka One',cursive;font-size:.92rem;pointer-events:none}
+.gb-sub{font-size:.65rem;color:var(--muted);font-weight:700;pointer-events:none}
+.gb-pts{font-size:.62rem;font-weight:800;border-radius:7px;padding:2px 7px;margin-top:1px;pointer-events:none}
 .grade-btn-full{grid-column:1/-1}
-.grade-btn.g1{border-color:rgba(67,233,123,.25)}.grade-btn.g1:hover{background:rgba(67,233,123,.08);border-color:rgba(67,233,123,.5)}
-.grade-btn.g1 .gb-pts{background:rgba(67,233,123,.15);color:#43E97B}
-.grade-btn.g2{border-color:rgba(255,101,132,.25)}.grade-btn.g2:hover{background:rgba(255,101,132,.08);border-color:rgba(255,101,132,.5)}
-.grade-btn.g2 .gb-pts{background:rgba(255,101,132,.15);color:#FF6584}
-.grade-btn.g3{border-color:rgba(250,130,49,.25)}.grade-btn.g3:hover{background:rgba(250,130,49,.08);border-color:rgba(250,130,49,.5)}
-.grade-btn.g3 .gb-pts{background:rgba(250,130,49,.15);color:#FA8231}
-.grade-btn.g4{border-color:rgba(162,155,254,.25)}.grade-btn.g4:hover{background:rgba(162,155,254,.08);border-color:rgba(162,155,254,.5)}
-.grade-btn.g4 .gb-pts{background:rgba(162,155,254,.15);color:#A29BFE}
-.grade-btn.g5{border-color:rgba(253,121,168,.25)}.grade-btn.g5:hover{background:rgba(253,121,168,.08);border-color:rgba(253,121,168,.5)}
-.grade-btn.g5 .gb-pts{background:rgba(253,121,168,.15);color:#FD79A8}
+.grade-btn.g1{border-color:rgba(67,233,123,.3)}.grade-btn.g1 .gb-pts{background:rgba(67,233,123,.15);color:#43E97B}
+.grade-btn.g2{border-color:rgba(255,101,132,.3)}.grade-btn.g2 .gb-pts{background:rgba(255,101,132,.15);color:#FF6584}
+.grade-btn.g3{border-color:rgba(250,130,49,.3)}.grade-btn.g3 .gb-pts{background:rgba(250,130,49,.15);color:#FA8231}
+.grade-btn.g4{border-color:rgba(162,155,254,.3)}.grade-btn.g4 .gb-pts{background:rgba(162,155,254,.15);color:#A29BFE}
+.grade-btn.g5{border-color:rgba(253,121,168,.3)}.grade-btn.g5 .gb-pts{background:rgba(253,121,168,.15);color:#FD79A8}
+.bottom-links{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 18px;position:relative;z-index:20}
+.blink{background:var(--glass);border:1px solid var(--border);border-radius:13px;padding:13px 14px;display:flex;align-items:center;gap:9px;touch-action:manipulation;transition:background .15s}
+.blink:active{background:var(--glass2)}
+.bl-icon{font-size:1.3rem;flex-shrink:0;pointer-events:none}
+.bl-text{font-size:.78rem;font-weight:800;pointer-events:none}
 
-/* BOTTOM LINKS - 2x2 grid */
-.bottom-links{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 18px;position:relative;z-index:5}
-.blink{background:var(--glass);border:1px solid var(--border);border-radius:13px;padding:13px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:9px}
-.blink:hover{background:var(--glass2);border-color:var(--border2);transform:translateY(-1px)}
-.blink:active{transform:scale(.97)}
-.bl-icon{font-size:1.3rem;flex-shrink:0}
-.bl-text{font-size:.78rem;font-weight:800;color:var(--text)}
-
-/* ====== REGISTER ====== */
+/* ===REGISTER=== */
 #pg-register{background:linear-gradient(135deg,#0A0A1A,#1A0A2E);align-items:center;justify-content:center;padding:32px 20px}
-.reg-card{background:var(--card);border:1px solid var(--border2);border-radius:24px;padding:28px 22px;width:100%;max-width:360px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.reg-card{background:var(--card);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:28px 22px;width:100%;max-width:360px}
 .reg-card h2{font-family:'Fredoka One',cursive;font-size:1.4rem;text-align:center;margin-bottom:4px;background:linear-gradient(135deg,#fff,#A29BFE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .reg-card p{font-size:.78rem;color:var(--muted);text-align:center;font-weight:700;margin-bottom:16px}
 .field{margin-bottom:11px}
 .field label{font-size:.75rem;font-weight:800;color:#A29BFE;display:block;margin-bottom:4px;letter-spacing:.3px;text-transform:uppercase}
-.field input{width:100%;background:var(--glass);border:1px solid var(--border2);border-radius:12px;padding:13px 15px;font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:700;color:var(--text);outline:none;transition:all .2s}
+.field input{width:100%;background:var(--glass);border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;font-size:.95rem;font-weight:700;color:#fff;outline:none;transition:border .2s;-webkit-user-select:text!important;user-select:text!important}
 .field input::placeholder{color:rgba(255,255,255,.25)}
-.field input:focus{border-color:#6C63FF;background:rgba(108,99,255,.1);box-shadow:0 0 0 3px rgba(108,99,255,.15)}
-.reg-btn{width:100%;background:linear-gradient(135deg,#6C63FF,#A29BFE);color:white;border:none;border-radius:14px;padding:15px;font-family:'Fredoka One',cursive;font-size:1.05rem;cursor:pointer;box-shadow:0 6px 20px rgba(108,99,255,.4);margin-top:6px;transition:all .2s}
-.reg-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(108,99,255,.5)}
-.back-link{background:none;border:none;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;margin-top:10px;display:block;text-align:center}
-.reg-status-found{background:rgba(67,233,123,.12);color:#43e97b;border:1px solid rgba(67,233,123,.25)}
-.reg-status-new{background:rgba(108,99,255,.12);color:#a29bfe;border:1px solid rgba(108,99,255,.25)}
+.field input:focus{border-color:#6C63FF;background:rgba(108,99,255,.1)}
+.reg-btn{width:100%;background:linear-gradient(135deg,#6C63FF,#A29BFE);color:#fff;border:none;border-radius:14px;padding:15px;font-family:'Fredoka One',cursive;font-size:1.05rem;margin-top:6px;transition:opacity .2s;touch-action:manipulation}
+.reg-btn:disabled{opacity:.5}
+.back-link{background:none;border:none;color:var(--muted);font-size:.8rem;font-weight:700;margin-top:10px;display:block;text-align:center;touch-action:manipulation}
 
-/* ====== DASHBOARD ====== */
+/* ===DASHBOARD=== */
 #pg-dash{background:var(--bg);padding:0 0 80px}
-.dash-top{background:linear-gradient(135deg,#1A0A2E,#2D1B69,#6C63FF);padding:20px 18px 22px;position:relative;overflow:hidden}
-.dash-top::after{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,.05);border-radius:50%;pointer-events:none}
-.dash-top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.dash-top{background:linear-gradient(135deg,#1A0A2E,#2D1B69,#6C63FF);padding:20px 18px 22px}
+.dash-top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;position:relative;z-index:10}
 .dash-top-row h2{font-family:'Fredoka One',cursive;font-size:1.15rem;flex:1}
-.logout-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:6px 12px;color:white;font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;cursor:pointer;touch-action:manipulation;position:relative;z-index:10}
+.logout-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:6px 12px;color:#fff;font-size:.75rem;font-weight:800;position:relative;z-index:10;touch-action:manipulation}
 .pts-row{display:flex;gap:8px}
-.pts-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:10px 12px;flex:1;text-align:center;backdrop-filter:blur(10px)}
+.pts-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:10px 12px;flex:1;text-align:center}
 .pts-chip .pv{font-family:'Fredoka One',cursive;font-size:1.35rem;line-height:1;background:linear-gradient(135deg,#fff,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .pts-chip .pl{font-size:.62rem;color:rgba(255,255,255,.7);font-weight:700;margin-top:2px}
 .trial-bar{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.25);border-radius:10px;padding:6px 12px;margin-top:8px;font-size:.74rem;font-weight:800;color:#FFD700;text-align:center}
@@ -120,195 +88,173 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .locked-box h3{font-family:'Fredoka One',cursive;font-size:1rem;color:#FF6584;margin-bottom:5px}
 .locked-box p{font-size:.78rem;color:var(--muted);font-weight:700;margin-bottom:12px}
 .promo-row{display:flex;gap:7px}
-.promo-row input{flex:1;background:var(--glass);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;font-family:'Nunito',sans-serif;font-size:.86rem;font-weight:700;outline:none;color:var(--text);text-transform:uppercase}
-.promo-row input:focus{border-color:#43E97B}
-.promo-row button{background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:10px;padding:9px 14px;font-family:'Fredoka One',cursive;font-size:.86rem;cursor:pointer;font-weight:800}
+.promo-row input{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:.86rem;font-weight:700;outline:none;color:#fff;text-transform:uppercase;-webkit-user-select:text!important;user-select:text!important}
+.promo-row button{background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:10px;padding:9px 14px;font-family:'Fredoka One',cursive;font-size:.86rem;font-weight:800;touch-action:manipulation}
 .day-locked-box{margin:12px 15px;background:var(--card);border:1px solid rgba(108,99,255,.2);border-radius:14px;padding:14px 15px;text-align:center}
 .day-locked-box p{font-size:.82rem;font-weight:700;color:#A29BFE}
 .day-locked-box .countdown{font-family:'Fredoka One',cursive;font-size:1.6rem;color:#FFD700;margin-top:5px}
 .day-sel{margin:12px 15px 0;display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:13px;padding:10px 13px}
 .day-sel span{font-family:'Fredoka One',cursive;font-size:.92rem;background:linear-gradient(135deg,#A29BFE,#6C63FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.day-nav{background:linear-gradient(135deg,#6C63FF,#A29BFE);border:none;border-radius:9px;width:33px;height:33px;font-size:.9rem;cursor:pointer;color:white;font-weight:900;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.day-nav:disabled{opacity:.2;cursor:default;background:var(--glass)}
+.day-nav{background:linear-gradient(135deg,#6C63FF,#A29BFE);border:none;border-radius:9px;width:34px;height:34px;font-size:.9rem;color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
+.day-nav:disabled{opacity:.2;background:var(--glass)}
 .sec-title{font-size:.68rem;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:12px 15px 7px}
 .tasks-list{padding:0 15px;display:flex;flex-direction:column;gap:7px}
-.task-item{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:9px;cursor:pointer;transition:all .2s;border-left:3px solid transparent}
-.task-item:hover{background:var(--card2);transform:translateX(2px)}
+.task-item{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:12px 14px;display:flex;align-items:center;gap:9px;border-left:3px solid transparent;touch-action:manipulation;transition:background .15s}
+.task-item:active{background:var(--card2)}
 .task-item.kaz{border-left-color:#43E97B}.task-item.eng{border-left-color:#6C63FF}.task-item.math{border-left-color:#FA8231}.task-item.logic{border-left-color:#FD79A8}
-.task-item.done{opacity:.38;cursor:default}
-.task-icon{font-size:1.3rem;flex-shrink:0}
-.task-info{flex:1}
+.task-item.done{opacity:.35}
+.task-icon{font-size:1.3rem;flex-shrink:0;pointer-events:none}
+.task-info{flex:1;pointer-events:none}
 .task-title{font-family:'Fredoka One',cursive;font-size:.86rem}
 .task-sub{font-size:.66rem;color:var(--muted);font-weight:700;margin-top:1px}
 .task-type-tag{display:inline-block;font-size:.58rem;font-weight:800;border-radius:6px;padding:2px 6px;margin-top:3px}
 .tag-tf{background:rgba(108,99,255,.2);color:#A29BFE}.tag-choice{background:rgba(253,121,168,.18);color:#FD79A8}.tag-write{background:rgba(67,233,123,.18);color:#43E97B}
-.task-pts{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.2);border-radius:9px;padding:3px 8px;font-size:.75rem;font-weight:900;color:#FFD700;white-space:nowrap}
+.task-pts{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.2);border-radius:9px;padding:3px 8px;font-size:.75rem;font-weight:900;color:#FFD700;white-space:nowrap;pointer-events:none}
 .task-pts.done-pts{background:rgba(67,233,123,.12);color:#43E97B;border-color:rgba(67,233,123,.25)}
+.day-done-banner{background:rgba(67,233,123,.1);border:1px solid rgba(67,233,123,.25);border-radius:14px;padding:14px;text-align:center;margin-bottom:10px}
 
-/* ====== TASK VIEW ====== */
+/* ===TASK VIEW=== */
 #pg-task{padding:0 0 80px;background:var(--bg)}
-.task-hdr{background:linear-gradient(135deg,#1A0A2E,#2D1B69,#6C63FF);padding:20px 15px 24px;position:relative;overflow:hidden}
-.task-hdr::after{content:'';position:absolute;top:-20px;right:-20px;width:110px;height:110px;background:rgba(255,255,255,.05);border-radius:50%;pointer-events:none}
-.task-hdr h3{font-family:'Fredoka One',cursive;font-size:1.1rem;margin-top:9px}
-.task-hdr p{font-size:.72rem;opacity:.7;font-weight:700}
+.task-hdr{background:linear-gradient(135deg,#1A0A2E,#2D1B69,#6C63FF);padding:20px 16px 24px}
+.back-btn{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:50%;width:36px;height:36px;color:#fff;font-size:.9rem;font-weight:900;display:flex;align-items:center;justify-content:center;touch-action:manipulation;flex-shrink:0}
+.task-hdr h3{font-family:'Fredoka One',cursive;font-size:1.15rem;margin-top:9px}
+.task-hdr p{font-size:.74rem;opacity:.7;font-weight:700}
 .pts-badge{display:inline-block;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.3);color:#FFD700;border-radius:13px;padding:4px 12px;font-weight:900;font-size:.86rem;margin-top:7px}
 .task-body{padding:16px 15px}
 .q-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:11px}
-.q-text{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:14px;line-height:1.5}
+.q-text{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:13px;line-height:1.5}
 .options{display:flex;flex-direction:column;gap:7px}
-.opt-btn{background:var(--glass);border:1px solid var(--border);border-radius:11px;padding:11px 13px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:800;text-align:left;cursor:pointer;transition:all .2s;color:var(--text)}
-.opt-btn:hover{background:rgba(108,99,255,.18);border-color:#6C63FF}
-.opt-btn.sel{background:rgba(108,99,255,.22);border-color:#6C63FF;box-shadow:0 0 0 2px rgba(108,99,255,.2)}
+.opt-btn{background:var(--glass);border:1.5px solid var(--border);border-radius:11px;padding:12px 14px;font-size:.9rem;font-weight:800;text-align:left;color:#fff;touch-action:manipulation;transition:background .15s,border-color .15s}
+.opt-btn:active,.opt-btn.sel{background:rgba(108,99,255,.22);border-color:#6C63FF}
 .opt-btn.ok{background:rgba(67,233,123,.18);border-color:#43E97B;color:#43E97B}
 .opt-btn.err{background:rgba(255,101,132,.13);border-color:#FF6584;color:#FF6584}
 .tf-row{display:flex;gap:10px}
-.tf-btn{flex:1;padding:15px;border-radius:13px;border:1px solid var(--border);background:var(--glass);font-family:'Fredoka One',cursive;font-size:.97rem;cursor:pointer;transition:all .2s;color:var(--text)}
-.tf-btn:hover{background:rgba(108,99,255,.18);border-color:#6C63FF}
-.tf-btn.sel{background:rgba(108,99,255,.22);border-color:#6C63FF}
+.tf-btn{flex:1;padding:16px;border-radius:13px;border:1.5px solid var(--border);background:var(--glass);font-family:'Fredoka One',cursive;font-size:1rem;color:#fff;touch-action:manipulation;transition:background .15s,border-color .15s}
+.tf-btn:active,.tf-btn.sel{background:rgba(108,99,255,.22);border-color:#6C63FF}
 .tf-btn.ok{background:rgba(67,233,123,.18);border-color:#43E97B;color:#43E97B}
 .tf-btn.err{background:rgba(255,101,132,.13);border-color:#FF6584;color:#FF6584}
-.write-area{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:11px;padding:11px 13px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;color:var(--text);outline:none;resize:vertical;min-height:85px;transition:all .2s}
-.write-area::placeholder{color:rgba(255,255,255,.25)}
-.write-area:focus{border-color:#6C63FF;background:rgba(108,99,255,.08)}
-.write-hint{font-size:.7rem;color:var(--muted);margin-top:4px;font-style:italic;font-weight:700}
-.num-input{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:11px;padding:12px 14px;font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:800;color:var(--text);outline:none;text-align:center;transition:all .2s}
+.write-area{width:100%;background:var(--glass);border:1.5px solid var(--border);border-radius:11px;padding:12px 14px;font-size:.9rem;font-weight:700;color:#fff;outline:none;resize:vertical;min-height:85px;-webkit-user-select:text!important;user-select:text!important}
+.write-area:focus{border-color:#6C63FF}
+.num-input{width:100%;background:var(--glass);border:1.5px solid var(--border);border-radius:11px;padding:13px 15px;font-size:1.1rem;font-weight:800;color:#fff;outline:none;text-align:center;position:relative;z-index:20;touch-action:manipulation;-webkit-user-select:text!important;user-select:text!important}
 .num-input:focus{border-color:#6C63FF}
-.result-msg{border-radius:12px;padding:11px 13px;margin-bottom:10px;font-weight:800;font-size:.83rem;display:none;text-align:center;white-space:pre-line;line-height:1.5}
+.result-msg{border-radius:12px;padding:12px 14px;margin-bottom:10px;font-weight:800;font-size:.86rem;display:none;text-align:center;white-space:pre-line;line-height:1.5}
 .result-msg.show{display:block}
 .result-msg.good{background:rgba(67,233,123,.12);color:#43E97B;border:1px solid rgba(67,233,123,.25)}
 .result-msg.bad{background:rgba(255,101,132,.1);color:#FF6584;border:1px solid rgba(255,101,132,.25)}
 .result-msg.info{background:rgba(108,99,255,.12);color:#A29BFE;border:1px solid rgba(108,99,255,.25)}
-.check-btn{width:100%;background:linear-gradient(135deg,#6C63FF,#A29BFE);color:white;border:none;border-radius:13px;padding:14px;font-family:'Fredoka One',cursive;font-size:.97rem;cursor:pointer;box-shadow:0 6px 20px rgba(108,99,255,.35);margin-top:8px;transition:all .2s}
-.check-btn:hover{transform:translateY(-2px)}
-.check-btn:disabled{opacity:.3;cursor:not-allowed;transform:none}
-.next-btn{width:100%;background:linear-gradient(135deg,#FF6584,#FA8231);color:white;border:none;border-radius:13px;padding:14px;font-family:'Fredoka One',cursive;font-size:.97rem;cursor:pointer;margin-top:9px;display:none;box-shadow:0 6px 20px rgba(255,101,132,.3);animation:pulse 1.5s ease infinite}
+.check-btn{width:100%;background:linear-gradient(135deg,#6C63FF,#A29BFE);color:#fff;border:none;border-radius:13px;padding:15px;font-family:'Fredoka One',cursive;font-size:1rem;margin-top:8px;touch-action:manipulation;transition:opacity .2s}
+.check-btn:disabled{opacity:.35}
+.next-btn{width:100%;background:linear-gradient(135deg,#FF6584,#FA8231);color:#fff;border:none;border-radius:13px;padding:15px;font-family:'Fredoka One',cursive;font-size:1rem;margin-top:9px;display:none;touch-action:manipulation;animation:pulse 1.5s ease infinite}
 .next-btn.show{display:block}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
 
-/* ====== CELEBRATION ====== */
-#pg-cel{background:linear-gradient(135deg,#0A0A1A,#1A0A2E,#2D1B69);align-items:center;justify-content:center;text-align:center;padding:40px 24px;gap:14px;position:relative;overflow:hidden}
-#pg-cel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(108,99,255,.25),transparent 65%)}
-.cel-ico{font-size:3.8rem;animation:bounce 1s ease infinite;position:relative;z-index:1}
+/* ===CELEBRATION=== */
+#pg-cel{background:linear-gradient(135deg,#0A0A1A,#1A0A2E,#2D1B69);align-items:center;justify-content:center;text-align:center;padding:40px 24px;gap:14px}
+.cel-ico{font-size:3.8rem;animation:bounce 1s ease infinite}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
-#pg-cel h2{font-family:'Fredoka One',cursive;font-size:1.85rem;background:linear-gradient(135deg,#fff,#A29BFE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1}
-#pg-cel p{color:var(--muted);font-weight:700;position:relative;z-index:1}
-.cel-pts{background:linear-gradient(135deg,#FFD700,#FA8231);color:#0A0A1A;border-radius:20px;padding:12px 34px;font-family:'Fredoka One',cursive;font-size:2rem;box-shadow:0 8px 28px rgba(255,215,0,.35);position:relative;z-index:1}
-.cel-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:white;border-radius:13px;padding:12px 34px;font-family:'Fredoka One',cursive;font-size:.97rem;cursor:pointer;margin-top:5px;transition:all .2s;position:relative;z-index:1}
+#pg-cel h2{font-family:'Fredoka One',cursive;font-size:1.85rem;background:linear-gradient(135deg,#fff,#A29BFE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+#pg-cel p{color:var(--muted);font-weight:700}
+.cel-pts{background:linear-gradient(135deg,#FFD700,#FA8231);color:#0A0A1A;border-radius:20px;padding:12px 34px;font-family:'Fredoka One',cursive;font-size:2rem}
+.cel-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:13px;padding:12px 34px;font-family:'Fredoka One',cursive;font-size:1rem;touch-action:manipulation}
 
-/* ====== LOGIN ====== */
+/* ===LOGIN=== */
 .login-wrap{background:linear-gradient(135deg,#0A0A1A,#1A0A2E);align-items:center;justify-content:center;padding:40px 20px}
-.login-card{background:var(--card);border:1px solid var(--border2);border-radius:22px;padding:28px 22px;width:100%;max-width:340px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.7)}
+.login-card{background:var(--card);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:28px 22px;width:100%;max-width:340px;text-align:center}
 .login-card h2{font-family:'Fredoka One',cursive;font-size:1.45rem;margin-bottom:5px;background:linear-gradient(135deg,#fff,#A29BFE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .login-card p{font-size:.78rem;color:var(--muted);font-weight:700;margin-bottom:16px}
-.pin-input{width:100%;background:var(--glass);border:1px solid var(--border2);border-radius:12px;padding:14px;font-family:'Fredoka One',cursive;font-size:1.85rem;text-align:center;letter-spacing:8px;outline:none;margin-bottom:12px;color:var(--text);transition:all .2s}
-.pin-input:focus{border-color:#6C63FF;background:rgba(108,99,255,.08);box-shadow:0 0 0 3px rgba(108,99,255,.15)}
-.pin-btn{width:100%;background:linear-gradient(135deg,#6C63FF,#A29BFE);color:white;border:none;border-radius:12px;padding:13px;font-family:'Fredoka One',cursive;font-size:.97rem;cursor:pointer;box-shadow:0 6px 20px rgba(108,99,255,.4)}
+.pin-input{width:100%;background:var(--glass);border:1.5px solid var(--border);border-radius:12px;padding:14px;font-family:'Fredoka One',cursive;font-size:1.85rem;text-align:center;letter-spacing:8px;outline:none;margin-bottom:12px;color:#fff;-webkit-user-select:text!important;user-select:text!important}
+.pin-input:focus{border-color:#6C63FF}
+.pin-btn{width:100%;background:linear-gradient(135deg,#6C63FF,#A29BFE);color:#fff;border:none;border-radius:12px;padding:13px;font-family:'Fredoka One',cursive;font-size:1rem;touch-action:manipulation}
 
-/* ====== ADMIN / CURATOR ====== */
+/* ===ADMIN/CURATOR=== */
 #pg-admin,#pg-curator{background:var(--bg);padding:0 0 60px}
 .admin-hdr{background:linear-gradient(135deg,#1A0A2E,#2D1B69,#6C63FF);padding:18px 15px;display:flex;align-items:center;gap:8px}
 .admin-hdr h2{font-family:'Fredoka One',cursive;font-size:1.1rem;flex:1}
-.hdr-btn{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:9px;padding:5px 10px;color:white;font-family:'Nunito',sans-serif;font-size:.73rem;font-weight:800;cursor:pointer}
+.hdr-btn{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:9px;padding:5px 10px;color:#fff;font-size:.73rem;font-weight:800;touch-action:manipulation}
 .admin-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px}
 .adm-stat{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:12px;text-align:center}
 .adm-stat .asv{font-family:'Fredoka One',cursive;font-size:1.4rem;background:linear-gradient(135deg,#A29BFE,#6C63FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .adm-stat .asl{font-size:.63rem;color:var(--muted);font-weight:700}
 .filter-row{padding:0 12px 9px;display:flex;gap:6px;overflow-x:auto}
-.filter-btn{background:var(--glass);border:1px solid var(--border);border-radius:9px;padding:6px 11px;font-family:'Nunito',sans-serif;font-size:.73rem;font-weight:800;cursor:pointer;white-space:nowrap;color:var(--muted);flex-shrink:0;transition:all .2s}
-.filter-btn.active{background:linear-gradient(135deg,#6C63FF,#A29BFE);color:white;border-color:transparent}
+.filter-btn{background:var(--glass);border:1px solid var(--border);border-radius:9px;padding:6px 11px;font-size:.73rem;font-weight:800;white-space:nowrap;color:var(--muted);flex-shrink:0;touch-action:manipulation}
+.filter-btn.active{background:linear-gradient(135deg,#6C63FF,#A29BFE);color:#fff;border-color:transparent}
 .students-list{padding:0 12px;display:flex;flex-direction:column;gap:7px}
-.student-card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:11px 12px;display:flex;align-items:center;gap:9px;transition:all .2s}
-.student-card:hover{background:var(--card2)}
+.student-card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:11px 12px;display:flex;align-items:center;gap:9px}
 .sc-rank{font-family:'Fredoka One',cursive;font-size:1.15rem;color:#FFD700;width:26px;text-align:center;flex-shrink:0}
 .sc-info{flex:1}
 .sc-name{font-family:'Fredoka One',cursive;font-size:.87rem}
 .sc-meta{font-size:.64rem;color:var(--muted);font-weight:700}
 .sc-pts{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.25);border-radius:9px;padding:3px 9px;font-weight:900;font-size:.8rem;color:#FFD700}
-.sc-del{background:rgba(255,101,132,.12);border:1px solid rgba(255,101,132,.25);border-radius:7px;padding:3px 8px;color:#FF6584;font-size:.7rem;font-weight:800;cursor:pointer;margin-left:4px}
+.sc-del{background:rgba(255,101,132,.12);border:1px solid rgba(255,101,132,.25);border-radius:7px;padding:3px 8px;color:#FF6584;font-size:.7rem;font-weight:800;touch-action:manipulation;margin-left:4px}
 .sc-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:5px;overflow:hidden}
 .sc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#6C63FF,#FD79A8)}
 .promo-sec{margin:12px;background:var(--card);border:1px solid var(--border);border-radius:15px;padding:14px}
 .promo-sec h3{font-family:'Fredoka One',cursive;font-size:.9rem;margin-bottom:9px;color:#A29BFE}
-.promo-gen-btn{width:100%;background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:11px;padding:10px;font-family:'Fredoka One',cursive;font-size:.9rem;cursor:pointer;margin-bottom:7px;font-weight:800}
-.reset-all-btn{width:100%;background:transparent;border:1px solid rgba(255,101,132,.35);color:#FF6584;border-radius:11px;padding:10px;font-family:'Fredoka One',cursive;font-size:.86rem;cursor:pointer;margin-top:7px}
+.promo-gen-btn{width:100%;background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:11px;padding:10px;font-family:'Fredoka One',cursive;font-size:.9rem;font-weight:800;margin-bottom:7px;touch-action:manipulation}
+.reset-all-btn{width:100%;background:transparent;border:1px solid rgba(255,101,132,.35);color:#FF6584;border-radius:11px;padding:10px;font-family:'Fredoka One',cursive;font-size:.86rem;margin-top:7px;touch-action:manipulation}
 .promo-list{display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto}
 .promo-item{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px 11px;display:flex;justify-content:space-between;align-items:center}
 .promo-code{font-family:'Fredoka One',cursive;font-size:.9rem;color:#A29BFE;letter-spacing:2px}
 .promo-used{font-size:.63rem;color:var(--muted);font-weight:700}
 
-/* ====== PARENT ====== */
+/* ===PARENT=== */
 #pg-parent{background:var(--bg);padding:0 0 60px}
 .parent-hdr{background:linear-gradient(135deg,#0F2027,#203A43,#43E97B);padding:18px 15px;display:flex;align-items:center;gap:8px}
 .parent-hdr h2{font-family:'Fredoka One',cursive;font-size:1.1rem;flex:1}
 .search-box{margin:13px 15px;display:flex;gap:7px}
-.search-box input{flex:1;background:var(--card);border:1px solid var(--border2);border-radius:11px;padding:11px 13px;font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;outline:none;color:var(--text);transition:all .2s}
-.search-box input::placeholder{color:rgba(255,255,255,.25)}
+.search-box input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:11px 13px;font-size:.88rem;font-weight:700;outline:none;color:#fff;-webkit-user-select:text!important;user-select:text!important}
 .search-box input:focus{border-color:#43E97B}
-.search-box button{background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:11px;padding:11px 15px;font-family:'Fredoka One',cursive;font-size:.88rem;cursor:pointer;font-weight:800}
+.search-box button{background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:11px;padding:11px 15px;font-family:'Fredoka One',cursive;font-size:.88rem;font-weight:800;touch-action:manipulation}
 .parent-result{margin:0 15px;background:var(--card);border:1px solid var(--border);border-radius:15px;padding:16px}
 .parent-result h3{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:11px;color:#43E97B}
 .pr-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.82rem;font-weight:700;color:var(--muted)}
-.pr-row span:last-child{font-family:'Fredoka One',cursive;font-size:.92rem;color:var(--text)}
+.pr-row span:last-child{font-family:'Fredoka One',cursive;font-size:.92rem;color:#fff}
 .progress-row{margin-bottom:8px}
 .progress-label{display:flex;justify-content:space-between;margin-bottom:3px}
 .progress-label span{font-size:.71rem;font-weight:700;color:var(--muted)}
 .progress-bar{height:6px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden}
 .progress-fill{height:100%;border-radius:6px;transition:width .5s}
-.fill-kaz{background:linear-gradient(90deg,#43E97B,#38F9D7)}
-.fill-eng{background:linear-gradient(90deg,#6C63FF,#A29BFE)}
-.fill-math{background:linear-gradient(90deg,#FA8231,#FFD700)}
-.fill-logic{background:linear-gradient(90deg,#FF6584,#FD79A8)}
+.fill-kaz{background:linear-gradient(90deg,#43E97B,#38F9D7)}.fill-eng{background:linear-gradient(90deg,#6C63FF,#A29BFE)}.fill-math{background:linear-gradient(90deg,#FA8231,#FFD700)}.fill-logic{background:linear-gradient(90deg,#FF6584,#FD79A8)}
 
-/* ====== RULES ====== */
-#pg-rules{background:var(--bg);padding:0 0 60px}
-.rules-hdr{background:linear-gradient(135deg,#0F0C29,#1A0A2E,#6C63FF);padding:18px 15px;display:flex;align-items:center;gap:8px}
-.rules-hdr h2{font-family:'Fredoka One',cursive;font-size:1.1rem;flex:1}
-.rules-body{padding:13px}
-.rule-section{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:15px;margin-bottom:10px}
-.rule-section h3{font-family:'Fredoka One',cursive;font-size:.92rem;margin-bottom:8px;color:#A29BFE;display:flex;align-items:center;gap:5px}
+/* ===RULES/INSTALL=== */
+#pg-rules,#pg-install{background:var(--bg);padding:0 0 60px}
+.rules-hdr,.install-hdr{background:linear-gradient(135deg,#0F0C29,#1A0A2E,#6C63FF);padding:18px 15px;display:flex;align-items:center;gap:8px}
+.rules-hdr h2,.install-hdr h2{font-family:'Fredoka One',cursive;font-size:1.1rem;flex:1}
+.rules-body,.install-body{padding:13px}
+.rule-section,.install-card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:15px;margin-bottom:10px}
+.rule-section h3,.install-card h3{font-family:'Fredoka One',cursive;font-size:.92rem;margin-bottom:8px;color:#A29BFE;display:flex;align-items:center;gap:5px}
+.install-card h3{color:#FD79A8}
 .rule-section li{font-size:.81rem;font-weight:700;color:rgba(255,255,255,.78);margin-bottom:5px;line-height:1.5;margin-left:14px}
 .promo-highlight{background:linear-gradient(135deg,rgba(108,99,255,.15),rgba(162,155,254,.1));border:1px solid rgba(108,99,255,.3);border-radius:12px;padding:12px 14px;margin-top:10px}
 .promo-highlight p{font-size:.8rem;font-weight:700;color:#A29BFE;line-height:1.6}
 .promo-highlight strong{color:#FFD700}
-
-/* ====== INSTALL ====== */
-#pg-install{background:var(--bg);padding:0 0 60px}
-.install-hdr{background:linear-gradient(135deg,#1A0A2E,#2D1B69);padding:18px 15px;display:flex;align-items:center;gap:8px}
-.install-hdr h2{font-family:'Fredoka One',cursive;font-size:1.1rem;flex:1}
-.install-body{padding:13px}
-.install-card{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:15px;margin-bottom:10px}
-.install-card h3{font-family:'Fredoka One',cursive;font-size:.92rem;margin-bottom:10px;color:#FD79A8;display:flex;align-items:center;gap:5px}
 .install-step{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px}
-.step-num{background:linear-gradient(135deg,#6C63FF,#A29BFE);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:.76rem;flex-shrink:0;margin-top:1px}
+.step-num{background:linear-gradient(135deg,#6C63FF,#A29BFE);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:.76rem;flex-shrink:0;margin-top:1px}
 .step-text{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.78);line-height:1.5}
-.step-text strong{color:var(--text)}
+.step-text strong{color:#fff}
 
-/* ====== GUIDE ====== */
-#pg-guide-home{background:linear-gradient(160deg,#0A0A1A,#0F1533,#1A0A2E);align-items:center;justify-content:center;gap:15px;padding:34px 20px;text-align:center;position:relative;overflow:hidden}
-#pg-guide-home::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(108,99,255,.2),transparent 65%);pointer-events:none}
-.guide-logo{font-family:'Fredoka One',cursive;font-size:1.85rem;line-height:1.2;background:linear-gradient(135deg,#fff 0%,#A29BFE 60%,#FD79A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1}
-.guide-sub{color:var(--muted);font-size:.83rem;font-weight:700;position:relative;z-index:1}
-.guide-desc-box{background:var(--glass);border:1px solid var(--border);border-radius:14px;padding:12px 15px;color:rgba(255,255,255,.82);font-size:.8rem;font-weight:700;line-height:1.7;max-width:340px;text-align:left;width:100%;position:relative;z-index:1}
-.days-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%;max-width:340px;position:relative;z-index:1}
-.day-dot{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px 4px;cursor:pointer;transition:all .2s;text-align:center}
-.day-dot:hover{background:rgba(108,99,255,.22);border-color:#6C63FF;transform:scale(1.04)}
+/* ===GUIDE=== */
+#pg-guide-home{background:linear-gradient(160deg,#0A0A1A,#0F1533,#1A0A2E);align-items:center;justify-content:center;gap:15px;padding:34px 20px;text-align:center;overflow-y:auto}
+.guide-logo{font-family:'Fredoka One',cursive;font-size:1.85rem;line-height:1.2;background:linear-gradient(135deg,#fff,#A29BFE,#FD79A8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.guide-sub{color:var(--muted);font-size:.83rem;font-weight:700}
+.guide-desc-box{background:var(--glass);border:1px solid var(--border);border-radius:14px;padding:12px 15px;color:rgba(255,255,255,.82);font-size:.8rem;font-weight:700;line-height:1.7;max-width:340px;text-align:left;width:100%}
+.days-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%;max-width:340px}
+.day-dot{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px 4px;text-align:center;touch-action:manipulation;transition:background .15s}
+.day-dot:active{background:rgba(108,99,255,.25)}
 .day-dot.done{background:rgba(67,233,123,.18);border-color:rgba(67,233,123,.4)}
 .day-dot .dn{font-family:'Fredoka One',cursive;font-size:.75rem;color:var(--muted);display:block}
 .day-dot.done .dn{color:#43E97B}
 .day-dot .di{font-size:.88rem;display:block}
-.back-home-btn{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:9px 22px;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.83rem;font-weight:800;cursor:pointer;transition:all .2s;position:relative;z-index:1}
-.back-home-btn:hover{color:var(--text);background:var(--glass2)}
+.back-home-btn{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:9px 22px;color:var(--muted);font-size:.83rem;font-weight:800;touch-action:manipulation}
 #pg-guide-day{padding:0 0 80px;background:var(--bg)}
 .gday-hdr{background:linear-gradient(135deg,#0F1533,#1A0A2E,#2D1B69);padding:18px 15px 22px}
 .gday-hdr-row{display:flex;align-items:center;gap:9px;margin-bottom:8px}
-.gday-hdr-row button{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:50%;width:34px;height:34px;color:white;font-size:.88rem;cursor:pointer;font-weight:900;flex-shrink:0}
 .gday-badge{background:rgba(108,99,255,.25);border:1px solid rgba(108,99,255,.4);color:#A29BFE;border-radius:8px;padding:3px 10px;font-family:'Fredoka One',cursive;font-size:.77rem}
 .gday-title{font-family:'Fredoka One',cursive;font-size:1.1rem;margin-top:4px;background:linear-gradient(135deg,#fff,#A29BFE);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .gday-title-ru{font-size:.72rem;color:var(--muted);font-weight:700}
 .gnav-row{display:flex;gap:8px;margin-top:10px}
-.gnav-btn{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.13);border-radius:9px;padding:7px;color:white;font-family:'Fredoka One',cursive;font-size:.78rem;cursor:pointer;transition:all .2s}
-.gnav-btn:hover{background:rgba(108,99,255,.22)}
-.gnav-btn:disabled{opacity:.2;cursor:default}
+.gnav-btn{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.13);border-radius:9px;padding:7px;color:#fff;font-family:'Fredoka One',cursive;font-size:.78rem;touch-action:manipulation}
+.gnav-btn:disabled{opacity:.2}
 .gday-body{padding:13px}
 .gprog-sec{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:13px;margin-bottom:10px}
 .gprog-sec h3{font-family:'Fredoka One',cursive;font-size:.86rem;margin-bottom:8px;color:#A29BFE}
@@ -323,18 +269,18 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .gtask-list{display:flex;flex-direction:column;gap:8px}
 .gtask{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:12px}
 .gtask-num{font-family:'Fredoka One',cursive;font-size:.7rem;color:#6C63FF;margin-bottom:3px}
-.gtask-q{font-size:.84rem;font-weight:800;color:var(--text);line-height:1.5;white-space:pre-line}
+.gtask-q{font-size:.86rem;font-weight:800;color:#fff;line-height:1.5;white-space:pre-line}
 .gbtn-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.ghint-btn{background:rgba(255,215,0,.1);border:1px dashed rgba(255,215,0,.35);border-radius:8px;padding:4px 10px;color:#FFD700;font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:800;cursor:pointer}
-.gans-btn{background:rgba(67,233,123,.1);border:1px solid rgba(67,233,123,.28);border-radius:8px;padding:4px 10px;color:#43E97B;font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:800;cursor:pointer}
+.ghint-btn{background:rgba(255,215,0,.1);border:1px dashed rgba(255,215,0,.35);border-radius:8px;padding:4px 10px;color:#FFD700;font-size:.7rem;font-weight:800;touch-action:manipulation}
+.gans-btn{background:rgba(67,233,123,.1);border:1px solid rgba(67,233,123,.28);border-radius:8px;padding:4px 10px;color:#43E97B;font-size:.7rem;font-weight:800;touch-action:manipulation}
 .ghint-box{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.18);border-radius:8px;padding:6px 10px;font-size:.74rem;font-weight:700;color:#FFD700;display:none;margin-top:4px;line-height:1.5}
 .gans-box{background:rgba(67,233,123,.08);border:1px solid rgba(67,233,123,.22);border-radius:8px;padding:6px 10px;font-size:.78rem;font-weight:800;color:#43E97B;display:none;margin-top:4px}
 .gshow{display:block!important}
-.gdone-btn{width:100%;background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:12px;padding:12px;font-family:'Fredoka One',cursive;font-size:.92rem;cursor:pointer;margin-top:4px;box-shadow:0 5px 18px rgba(67,233,123,.25);font-weight:800}
+.gdone-btn{width:100%;background:linear-gradient(135deg,#43E97B,#38F9D7);color:#0A0A1A;border:none;border-radius:12px;padding:12px;font-family:'Fredoka One',cursive;font-size:.92rem;font-weight:800;margin-top:4px;touch-action:manipulation}
 .gdone-check{background:rgba(67,233,123,.1);border:1px solid rgba(67,233,123,.25);border-radius:12px;padding:12px;text-align:center;font-family:'Fredoka One',cursive;font-size:.92rem;color:#43E97B;display:none}
 .gdone-check.gshow{display:block}
-.gprint-btn{width:100%;background:rgba(255,101,132,.12);border:1px solid rgba(255,101,132,.25);color:#FF6584;border-radius:12px;padding:11px;font-family:'Fredoka One',cursive;font-size:.86rem;cursor:pointer;margin-top:7px}
-.ghome-btn{width:100%;background:linear-gradient(135deg,#1A0A2E,#6C63FF);color:white;border:none;border-radius:12px;padding:11px;font-family:'Fredoka One',cursive;font-size:.86rem;cursor:pointer;margin-top:6px}
+.gprint-btn{width:100%;background:rgba(255,101,132,.12);border:1px solid rgba(255,101,132,.25);color:#FF6584;border-radius:12px;padding:11px;font-family:'Fredoka One',cursive;font-size:.86rem;margin-top:7px;touch-action:manipulation}
+.ghome-btn{width:100%;background:linear-gradient(135deg,#1A0A2E,#6C63FF);color:#fff;border:none;border-radius:12px;padding:11px;font-family:'Fredoka One',cursive;font-size:.86rem;margin-top:6px;touch-action:manipulation}
 </style>
 </head>
 <body>
@@ -345,21 +291,19 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   <div class="topbar">
     <div class="brand">🌟 Kidstopia <span>Camp</span></div>
     <div class="topbar-icons">
-      <div class="icon-btn" onclick="goPage('pg-admin-login')" title="Админ">🔐</div>
+      <button class="icon-btn" onclick="goPage('pg-admin-login')">🔐</button>
     </div>
   </div>
   <div class="hero">
     <span class="hero-emoji">🏕️</span>
-    <div class="hero-title">Summer Camp<br>Academy</div>
-    <div class="hero-sub">Жазғы лагерь · 1-5 сынып · 30 күн</div>
+    <div class="hero-title">Summer Camp Academy</div>
+    <div class="hero-sub">Жазғы лагерь · 1-5 сынып · 28 мамыр — 1 маусым</div>
     <div class="hero-chips">
-      <span class="hero-chip">📚 12 тапсырма/күн</span>
+      <span class="hero-chip">📅 28 мам — 1 мау</span>
       <span class="hero-chip">💰 180 ₸/күн</span>
-      <span class="hero-chip">🏆 Рейтинг</span>
+      <span class="hero-chip">☕ Кофехана</span>
     </div>
   </div>
-
-  <!-- GUIDE BANNER -->
   <div class="guide-banner" onclick="goPage('pg-guide-home');renderGuideHome()">
     <div class="gb-left">
       <h3>📚 Математика + Логика Гайд</h3>
@@ -368,55 +312,29 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     </div>
     <div class="gb-right">🧮</div>
   </div>
-
   <div class="section-lbl">Сыныпты таңда</div>
   <div class="grade-grid">
-    <div class="grade-btn g1" onclick="selectGrade(1)">
-      <div class="gb-icon">🌱</div><div class="gb-name">1-сынып</div>
-      <div class="gb-sub">1 класс</div><div class="gb-pts">180 ₸/күн</div>
-    </div>
-    <div class="grade-btn g2" onclick="selectGrade(2)">
-      <div class="gb-icon">🌿</div><div class="gb-name">2-сынып</div>
-      <div class="gb-sub">2 класс</div><div class="gb-pts">180 ₸/күн</div>
-    </div>
-    <div class="grade-btn g3" onclick="selectGrade(3)">
-      <div class="gb-icon">🌳</div><div class="gb-name">3-сынып</div>
-      <div class="gb-sub">3 класс</div><div class="gb-pts">180 ₸/күн</div>
-    </div>
-    <div class="grade-btn g4" onclick="selectGrade(4)">
-      <div class="gb-icon">🚀</div><div class="gb-name">4-сынып</div>
-      <div class="gb-sub">4 класс</div><div class="gb-pts">180 ₸/күн</div>
-    </div>
-    <div class="grade-btn g5 grade-btn-full" onclick="selectGrade(5)">
-      <div class="gb-icon">⭐</div><div class="gb-name">5-сынып</div>
-      <div class="gb-sub">5 класс</div><div class="gb-pts">180 ₸/күн</div>
-    </div>
+    <button class="grade-btn g1" onclick="selectGrade(1)"><div class="gb-icon">🌱</div><div class="gb-name">1-сынып</div><div class="gb-sub">1 класс</div><div class="gb-pts">180 ₸/күн</div></button>
+    <button class="grade-btn g2" onclick="selectGrade(2)"><div class="gb-icon">🌿</div><div class="gb-name">2-сынып</div><div class="gb-sub">2 класс</div><div class="gb-pts">180 ₸/күн</div></button>
+    <button class="grade-btn g3" onclick="selectGrade(3)"><div class="gb-icon">🌳</div><div class="gb-name">3-сынып</div><div class="gb-sub">3 класс</div><div class="gb-pts">180 ₸/күн</div></button>
+    <button class="grade-btn g4" onclick="selectGrade(4)"><div class="gb-icon">🚀</div><div class="gb-name">4-сынып</div><div class="gb-sub">4 класс</div><div class="gb-pts">180 ₸/күн</div></button>
+    <button class="grade-btn g5 grade-btn-full" onclick="selectGrade(5)"><div class="gb-icon">⭐</div><div class="gb-name">5-сынып</div><div class="gb-sub">5 класс</div><div class="gb-pts">180 ₸/күн</div></button>
   </div>
-
   <div class="bottom-links">
-    <div class="blink" onclick="goPage('pg-parent')">
-      <span class="bl-icon">👨‍👩‍👧</span><span class="bl-text">Ата-ана</span>
-    </div>
-    <div class="blink" onclick="goPage('pg-rules')">
-      <span class="bl-icon">📋</span><span class="bl-text">Ережелер</span>
-    </div>
-    <div class="blink" onclick="goPage('pg-install')">
-      <span class="bl-icon">📱</span><span class="bl-text">Орнату нұсқаулығы</span>
-    </div>
-    <div class="blink" onclick="goPage('pg-curator-login')">
-      <span class="bl-icon">👁</span><span class="bl-text">Куратор</span>
-    </div>
+    <button class="blink" onclick="goPage('pg-parent')"><span class="bl-icon">👨‍👩‍👧</span><span class="bl-text">Ата-ана</span></button>
+    <button class="blink" onclick="goPage('pg-rules')"><span class="bl-icon">📋</span><span class="bl-text">Ережелер</span></button>
+    <button class="blink" onclick="goPage('pg-install')"><span class="bl-icon">📱</span><span class="bl-text">Орнату нұсқаулығы</span></button>
+    <button class="blink" onclick="goPage('pg-curator-login')"><span class="bl-icon">👁</span><span class="bl-text">Куратор</span></button>
   </div>
 </div>
 
-<!-- REGISTER -->
+<!-- REGISTER/LOGIN -->
 <div id="pg-register" class="page">
   <div class="reg-card" style="margin:auto">
     <h2 id="reg-title">1-сынып 🌱</h2>
     <p id="reg-desc">Аты-жөніңді жаз — кіру немесе тіркелу</p>
     <div class="field"><label>АТЫ / ИМЯ</label><input type="text" id="reg-first" placeholder="Аты..." autocomplete="given-name"></div>
     <div class="field"><label>ТЕГІ / ФАМИЛИЯ</label><input type="text" id="reg-last" placeholder="Тегі..." autocomplete="family-name"></div>
-    <div id="reg-status" style="display:none;margin-bottom:10px;border-radius:11px;padding:10px 14px;font-size:.82rem;font-weight:700;text-align:center"></div>
     <button class="reg-btn" id="reg-btn" onclick="doRegister()">🔍 Тексеру / Кіру</button>
     <button class="back-link" onclick="goPage('pg-welcome')">← Артқа</button>
   </div>
@@ -439,16 +357,13 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   <div id="locked-section" style="display:none">
     <div class="locked-box">
       <h3>🔒 Тегін мерзім аяқталды</h3>
-      <p>Промокод енгіз және жалғастыр!<br>Куратордан немесе Админнен ал.</p>
-      <div class="promo-row">
-        <input type="text" id="promo-inp" placeholder="ПРОМОКОД...">
-        <button onclick="applyPromo()">✅</button>
-      </div>
+      <p>Промокод енгіз және жалғастыр!</p>
+      <div class="promo-row"><input type="text" id="promo-inp" placeholder="ПРОМОКОД..."><button onclick="applyPromo()">✅</button></div>
     </div>
   </div>
   <div id="day-locked-section" style="display:none">
     <div class="day-locked-box">
-      <p>⏰ Келесі күн тапсырмасы кешке 00:00-де ашылады</p>
+      <p>⏰ Бүгінгі тапсырмаларды орындадың!<br>Келесі күн <strong style="color:#FFD700">00:00</strong>-де ашылады.</p>
       <div class="countdown" id="countdown-timer">--:--:--</div>
     </div>
   </div>
@@ -466,17 +381,14 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <!-- TASK -->
 <div id="pg-task" class="page">
   <div class="task-hdr">
-    <button style="background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:50%;width:34px;height:34px;color:white;font-size:.88rem;cursor:pointer;font-weight:900" onclick="goPage('pg-dash');renderDash()">←</button>
+    <button class="back-btn" onclick="goPage('pg-dash');renderDash()">←</button>
     <h3 id="tv-title">Тапсырма</h3>
     <p id="tv-sub"></p>
     <div class="pts-badge" id="tv-pts">+15 ₸</div>
   </div>
   <div class="task-body">
     <div class="result-msg" id="result-msg"></div>
-    <div class="q-card">
-      <div class="q-text" id="q-text"></div>
-      <div id="q-opts"></div>
-    </div>
+    <div class="q-card"><div class="q-text" id="q-text"></div><div id="q-opts"></div></div>
     <button class="check-btn" id="check-btn" onclick="submitAns()">Тексеру ✔</button>
     <button class="next-btn" id="next-btn" onclick="doNext()">➡️ Келесі тапсырма</button>
   </div>
@@ -494,8 +406,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <!-- ADMIN LOGIN -->
 <div id="pg-admin-login" class="page login-wrap">
   <div class="login-card">
-    <h2>🔐 Админ</h2>
-    <p>Толық басқару · PIN енгіз</p>
+    <h2>🔐 Админ</h2><p>Толық басқару · PIN енгіз</p>
     <input type="password" class="pin-input" id="admin-pin" maxlength="4" placeholder="••••" inputmode="numeric">
     <button class="pin-btn" onclick="checkAdminPin()">Кіру →</button>
     <br><br><button class="back-link" onclick="goPage('pg-welcome')">← Артқа</button>
@@ -505,8 +416,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <!-- CURATOR LOGIN -->
 <div id="pg-curator-login" class="page login-wrap">
   <div class="login-card">
-    <h2>👁 Куратор</h2>
-    <p>Тек көру режимі · PIN енгіз</p>
+    <h2>👁 Куратор</h2><p>Тек көру режимі · PIN енгіз</p>
     <input type="password" class="pin-input" id="curator-pin" maxlength="4" placeholder="••••" inputmode="numeric">
     <button class="pin-btn" onclick="checkCuratorPin()">Кіру →</button>
     <br><br><button class="back-link" onclick="goPage('pg-welcome')">← Артқа</button>
@@ -515,11 +425,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 <!-- ADMIN -->
 <div id="pg-admin" class="page">
-  <div class="admin-hdr">
-    <h2>🔐 Админ панелі</h2>
-    <button class="hdr-btn" onclick="loadAdminData()">🔄</button>
-    <button class="hdr-btn" onclick="goPage('pg-welcome')">Шығу</button>
-  </div>
+  <div class="admin-hdr"><h2>🔐 Админ панелі</h2><button class="hdr-btn" onclick="loadAdminData()">🔄</button><button class="hdr-btn" onclick="goPage('pg-welcome')">Шығу</button></div>
   <div class="admin-stats">
     <div class="adm-stat"><div class="asv" id="adm-total">0</div><div class="asl">Оқушы</div></div>
     <div class="adm-stat"><div class="asv" id="adm-pts">0 ₸</div><div class="asl">Барлық ₸</div></div>
@@ -544,11 +450,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 <!-- CURATOR -->
 <div id="pg-curator" class="page">
-  <div class="admin-hdr" style="background:linear-gradient(135deg,#0F2027,#203A43,#00CEC9)">
-    <h2>👁 Куратор панелі</h2>
-    <button class="hdr-btn" onclick="loadCuratorData()">🔄</button>
-    <button class="hdr-btn" onclick="goPage('pg-welcome')">Шығу</button>
-  </div>
+  <div class="admin-hdr" style="background:linear-gradient(135deg,#0F2027,#203A43,#00CEC9)"><h2>👁 Куратор панелі</h2><button class="hdr-btn" onclick="loadCuratorData()">🔄</button><button class="hdr-btn" onclick="goPage('pg-welcome')">Шығу</button></div>
   <div class="admin-stats">
     <div class="adm-stat"><div class="asv" id="cur-total">0</div><div class="asl">Оқушы</div></div>
     <div class="adm-stat"><div class="asv" id="cur-pts">0 ₸</div><div class="asl">Барлық ₸</div></div>
@@ -567,14 +469,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 <!-- PARENT -->
 <div id="pg-parent" class="page">
-  <div class="parent-hdr">
-    <button style="background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:50%;width:34px;height:34px;color:white;font-size:.88rem;cursor:pointer;font-weight:900" onclick="goPage('pg-welcome')">←</button>
-    <h2>👨‍👩‍👧 Ата-ана беті</h2>
-  </div>
-  <div class="search-box">
-    <input type="text" id="parent-search" placeholder="Баласының аты-жөні...">
-    <button onclick="searchParent()">🔍</button>
-  </div>
+  <div class="parent-hdr"><button class="back-btn" onclick="goPage('pg-welcome')">←</button><h2>👨‍👩‍👧 Ата-ана беті</h2></div>
+  <div class="search-box"><input type="text" id="parent-search" placeholder="Баласының аты-жөні..."><button onclick="searchParent()">🔍</button></div>
   <div id="parent-result" style="display:none" class="parent-result">
     <h3 id="pr-name">Оқушы</h3>
     <div class="pr-row"><span>Сынып:</span><span id="pr-grade">—</span></div>
@@ -593,67 +489,29 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 <!-- RULES -->
 <div id="pg-rules" class="page">
-  <div class="rules-hdr">
-    <button style="background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:50%;width:34px;height:34px;color:white;font-size:.88rem;cursor:pointer;font-weight:900" onclick="goPage('pg-welcome')">←</button>
-    <h2>📋 Платформа ережелері</h2>
-  </div>
+  <div class="rules-hdr"><button class="back-btn" onclick="goPage('pg-welcome')">←</button><h2>📋 Платформа ережелері</h2></div>
   <div class="rules-body">
-    <div class="rule-section"><h3>🌟 Жалпы ережелер</h3><ul>
-      <li>Платформа жазғы лагерь оқушыларына арналған</li>
-      <li>Әр оқушы тек өз бетін ашады</li>
-      <li>Тапсырмаларды адал орындау керек</li>
-      <li>Күн сайын тек бір күннің тапсырмасы орындалады</li>
-      <li>Келесі күнге тек сағат 00:00-де өтуге болады</li>
-    </ul></div>
-    <div class="rule-section"><h3>💰 Ұпай жүйесі</h3><ul>
-      <li>1 ұпай = 1 теңге</li>
-      <li>Дұрыс жауап: 15 теңге (толық)</li>
-      <li>Қате жауаптан кейін өту: 7-8 теңге (жарты)</li>
-      <li>Жазу тапсырмасы: 25 теңге (автоматты)</li>
-      <li>Күніне максимум: 180 теңге</li>
-    </ul></div>
-    <div class="rule-section"><h3>⏳ Тегін кезең және промокод</h3><ul>
-      <li>Алғашқы 5 күн — ТЕГІН</li>
-      <li>5 күннен кейін промокод керек</li>
-      <li>Промокодты куратордан немесе админнен алыңыз</li>
-      <li>Промокод бір рет қана пайдаланылады</li>
-    </ul>
-    <div class="promo-highlight">
-      <p>💳 Егер қалған күндеріне промокод керек болса,<br>
-      <strong>"MUGALIM"</strong> жобасына Kaspi арқылы<br>
-      <strong>8785 теңге</strong> демеушілік жасап ала аласыз.</p>
-    </div></div>
-    <div class="rule-section"><h3>🏆 Рейтинг және марапат</h3><ul>
-      <li>Барлық оқушылар рейтингте көрінеді</li>
-      <li>Жинаған ұпайға кофеханада тауар сатып алуға болады</li>
-      <li>Ең көп ұпай жинаған оқушылар марапатталады</li>
-    </ul></div>
-    <div class="rule-section"><h3>📚 Пәндер (күніне 12 тапсырма)</h3><ul>
-      <li>🇰🇿 Қазақ тілі — 3 тапсырма</li>
-      <li>🇬🇧 Ағылшын тілі — 3 тапсырма</li>
-      <li>🔢 Математика — 3 тапсырма</li>
-      <li>🧩 Логика — 3 тапсырма</li>
-    </ul></div>
+    <div class="rule-section"><h3>🌟 Жалпы ережелер</h3><ul><li>Платформа жазғы лагерь оқушыларына арналған</li><li>Тіркелу: аты + тегі (бірегей логин)</li><li>Тапсырмаларды адал орындау керек</li><li>Бүгінгі тапсырманы бітірсең — келесі күн <strong>00:00</strong>-де ашылады</li><li>Кешегі тапсырма бітпесе — бүгін 2 күнді орындай аласың</li></ul></div>
+    <div class="rule-section"><h3>💰 Ұпай жүйесі</h3><ul><li>1 ұпай = 1 теңге</li><li>Дұрыс жауап: 15 теңге (толық)</li><li>Қате жауаптан кейін өту: 7-8 теңге (жарты)</li><li>Жазу тапсырмасы: 25 теңге</li><li>Күніне максимум: 180 теңге</li></ul></div>
+    <div class="rule-section"><h3>☕ Кофехана және марапат</h3><ul><li><strong style="color:#43E97B">28 мамыр — 1 маусым</strong> аралығында жинаған ұпайға кофеханадан тауар сатып алады</li><li>Лагерьден кейін жинаған теңгені <strong style="color:#A29BFE">ата-анасы береді</strong></li></ul></div>
+    <div class="rule-section"><h3>⏳ Тегін кезең және промокод</h3><ul><li>Алғашқы 5 күн — ТЕГІН</li><li>5 күннен кейін промокод керек</li></ul>
+    <div class="promo-highlight"><p>💳 Егер промокод керек болса, <strong>«MUGALIM»</strong> жобасына Kaspi арқылы <strong>8 785 теңге</strong> демеушілік жасап алуға болады.</p></div></div>
+    <div class="rule-section"><h3>📚 Пәндер (күніне 12 тапсырма)</h3><ul><li>🇰🇿 Қазақ тілі — 3 тапсырма</li><li>🇬🇧 Ағылшын тілі — 3 тапсырма</li><li>🔢 Математика — 3 тапсырма</li><li>🧩 Логика — 3 тапсырма</li></ul></div>
   </div>
 </div>
 
 <!-- INSTALL -->
 <div id="pg-install" class="page">
-  <div class="install-hdr">
-    <button style="background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:50%;width:34px;height:34px;color:white;font-size:.88rem;cursor:pointer;font-weight:900" onclick="goPage('pg-welcome')">←</button>
-    <h2>📱 Үйге қосу нұсқаулығы</h2>
-  </div>
+  <div class="install-hdr"><button class="back-btn" onclick="goPage('pg-welcome')">←</button><h2>📱 Үйге қосу нұсқаулығы</h2></div>
   <div class="install-body">
-    <div class="install-card">
-      <h3>🍎 iPhone / iPad (Safari)</h3>
-      <div class="install-step"><div class="step-num">1</div><div class="step-text">Safari-де ашыңыз:<br><strong>mektepkeqadam.github.io/kidstopia</strong></div></div>
+    <div class="install-card"><h3>🍎 iPhone / iPad (Safari)</h3>
+      <div class="install-step"><div class="step-num">1</div><div class="step-text">Safari-де ашыңыз: <strong>mektepkeqadam.github.io/kidstopia</strong></div></div>
       <div class="install-step"><div class="step-num">2</div><div class="step-text">Төменгі ортадағы <strong>📤 Share</strong> батырмасын басыңыз</div></div>
       <div class="install-step"><div class="step-num">3</div><div class="step-text"><strong>Add to Home Screen</strong> таңдаңыз</div></div>
       <div class="install-step"><div class="step-num">4</div><div class="step-text"><strong>Add</strong> басыңыз → иконка пайда болады 🎉</div></div>
     </div>
-    <div class="install-card">
-      <h3>🤖 Android (Chrome)</h3>
-      <div class="install-step"><div class="step-num">1</div><div class="step-text">Chrome-да ашыңыз:<br><strong>mektepkeqadam.github.io/kidstopia</strong></div></div>
+    <div class="install-card"><h3>🤖 Android (Chrome)</h3>
+      <div class="install-step"><div class="step-num">1</div><div class="step-text">Chrome-да ашыңыз: <strong>mektepkeqadam.github.io/kidstopia</strong></div></div>
       <div class="install-step"><div class="step-num">2</div><div class="step-text">Жоғарыдағы <strong>⋮ үш нүктені</strong> басыңыз</div></div>
       <div class="install-step"><div class="step-num">3</div><div class="step-text"><strong>Add to Home screen</strong> таңдаңыз</div></div>
       <div class="install-step"><div class="step-num">4</div><div class="step-text"><strong>Add</strong> басыңыз → иконка пайда болады 🎉</div></div>
@@ -674,17 +532,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <!-- GUIDE DAY -->
 <div id="pg-guide-day" class="page">
   <div class="gday-hdr">
-    <div class="gday-hdr-row">
-      <button onclick="goPage('pg-guide-home');renderGuideHome()">←</button>
-      <div class="gday-badge" id="gday-badge">1-күн</div>
-      <div style="flex:1"></div>
-    </div>
+    <div class="gday-hdr-row"><button class="back-btn" onclick="goPage('pg-guide-home');renderGuideHome()">←</button><div class="gday-badge" id="gday-badge">1-күн</div><div style="flex:1"></div></div>
     <div class="gday-title" id="gday-title">Тақырып</div>
     <div class="gday-title-ru" id="gday-title-ru"></div>
-    <div class="gnav-row">
-      <button class="gnav-btn" id="gprev-btn" onclick="gNavDay(-1)">◀ Алдыңғы</button>
-      <button class="gnav-btn" id="gnext-btn" onclick="gNavDay(1)">Келесі ▶</button>
-    </div>
+    <div class="gnav-row"><button class="gnav-btn" id="gprev-btn" onclick="gNavDay(-1)">◀ Алдыңғы</button><button class="gnav-btn" id="gnext-btn" onclick="gNavDay(1)">Келесі ▶</button></div>
   </div>
   <div class="gday-body">
     <div class="gprog-sec"><h3>📊 Прогрес</h3><div class="gpbar"><div class="gpbar-fill" id="gpbar-fill" style="width:0%"></div></div><div class="gpbar-lbl"><span id="gpbar-lbl">0/20 күн</span><span id="gpbar-pct">0%</span></div></div>
@@ -727,117 +578,185 @@ var GUIDE_DATA=[
 {day:20,title:'Қорытынды: Аралас есептер',title_ru:'Итог: Смешанные задачи',theory:'🏆 20 күн бойы сен үйрендің:\n✅ Сандар мен амалдар\n✅ Бөлшектер мен пайыздар\n✅ Теңдеулер\n✅ Геометрия\n✅ Прогрессия мен ықтималдық\n✅ Логика мен комбинаторика\n✅ Графиктер мен статистика\n\n💪 Соңғы күн — барлық тақырыптан тест!',example:'Кеңес:\n• Есепті мұқият оқы\n• Не берілгенін, не табу керектігін бел\n• Формуланы дұрыс таңда\n• Жауапты тексер\n• Сенімді бол! 🌟',tasks:[{q:'Квадраттың периметрі 48 см. Оның ауданы қанша?',hint:'P=4a → a=12, S=a²',ans:'S = 144 см²'},{q:'52 картадан 2 туз алу ықтималдығы?',hint:'C(4,2)/C(52,2)',ans:'P = 6/1326 = 1/221'},{q:'Арифм. прог: a₁=3, d=4. Алғашқы 10 мүше қосындысы?',hint:'a₁₀=3+36=39, S=10×(3+39)/2',ans:'S₁₀ = 210'},{q:'x²−5x+6=0 теңдеуін шеш',hint:'(x−2)(x−3)=0',ans:'x=2 немесе x=3'}]}
 ];
 
-var cu=null,selGrade=1,curTask=null,selOpt=null,wrongCnt=0,curTaskIdx=0,curDayTasks=[],allStudents=[],curStudents=[],promos=[],fGrade='all',fCurGrade='all';
-var countdownInterval=null;
+// STATE
+var cu=null,selGrade=1,curTask=null,selOpt=null,wrongCnt=0,curTaskIdx=0,curDayTasks=[];
+var allStudents=[],curStudents=[],promos=[],fGrade='all',fCurGrade='all';
+var viewDay=0,countdownInterval=null;
+var gCurDay=0,gDoneDays=[];
+try{gDoneDays=JSON.parse(localStorage.getItem('guide_done')||'[]');}catch(e){}
 
-function sf(path,method,body){return fetch(SUPA_URL+'/rest/v1/'+path,{method:method||'GET',headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':'return=minimal'},body:body?JSON.stringify(body):undefined}).then(function(r){return r.json();}).catch(function(){return null;});}
-function showSync(msg,err){var b=document.getElementById('sync-bar');b.textContent=msg;b.className='sync-bar show'+(err?' error':'');setTimeout(function(){b.className='sync-bar';},2500);}
-function goPage(id){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
-
-// DAY LOCK: only allow next day after 00:00
-function getTodayKey(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
-function getLastCompletedDate(grade){return localStorage.getItem('camp_lcd_'+grade)||null;}
-function setLastCompletedDate(grade){localStorage.setItem('camp_lcd_'+grade,getTodayKey());}
-function isDayLocked(){
-  if(!cu) return false;
-  var dt=ALL_TASKS[String(cu.grade)][String(cu.currentDay)]||[];
-  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks[t.id];});
-  if(!allDone) return false;
-  var lad=getLastAdvancedDate(cu.grade);
-  return lad===getTodayKey();
+// CORE
+function sf(path,method,body){
+  return fetch(SUPA_URL+'/rest/v1/'+path,{
+    method:method||'GET',
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':'return=minimal'},
+    body:body?JSON.stringify(body):undefined
+  }).then(function(r){return r.json();}).catch(function(){return null;});
 }
-function getSecondsUntilMidnight(){var now=new Date();var midnight=new Date(now);midnight.setHours(24,0,0,0);return Math.floor((midnight-now)/1000);}
+function showSync(msg,err){
+  var b=document.getElementById('sync-bar');
+  b.textContent=msg;b.className='sync-bar show'+(err?' error':'');
+  setTimeout(function(){b.className='sync-bar';},3000);
+}
+function goPage(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  var el=document.getElementById(id);
+  if(el){el.classList.add('active');}
+  window.scrollTo(0,0);
+}
+
+// DAY LOCK
+function getTodayKey(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
+function getLastAdvancedDate(g){return localStorage.getItem('camp_lad_'+g)||null;}
+function setLastAdvancedDate(g){localStorage.setItem('camp_lad_'+g,getTodayKey());}
+function isDayLocked(){
+  if(!cu)return false;
+  var g=String(cu.grade),d=String(cu.currentDay||1);
+  var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
+  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
+  if(!allDone)return false;
+  return getLastAdvancedDate(cu.grade)===getTodayKey();
+}
+function isLocked(){
+  if(!cu)return true;
+  if(cu.activated)return false;
+  return (cu.daysUsed||0)>=(cu.trialDays||5);
+}
+function getSecondsUntilMidnight(){
+  var now=new Date(),m=new Date(now);m.setHours(24,0,0,0);
+  return Math.floor((m-now)/1000);
+}
 function startCountdown(){
   if(countdownInterval)clearInterval(countdownInterval);
   updateCountdown();
   countdownInterval=setInterval(function(){
     updateCountdown();
-    if(getSecondsUntilMidnight()<=0){clearInterval(countdownInterval);renderDash();}
+    if(getSecondsUntilMidnight()<=0){clearInterval(countdownInterval);countdownInterval=null;renderDash();}
   },1000);
 }
 function updateCountdown(){
   var s=getSecondsUntilMidnight();
-  var h=Math.floor(s/3600);var m=Math.floor((s%3600)/60);var sec=s%60;
+  var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;
   var el=document.getElementById('countdown-timer');
-  if(el) el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
+  if(el)el.textContent=(h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
 }
 
+// SELECT GRADE
 function selectGrade(g){
   selGrade=g;
   var icons={1:'🌱 1-сынып',2:'🌿 2-сынып',3:'🌳 3-сынып',4:'🚀 4-сынып',5:'⭐ 5-сынып'};
-  // If already logged in on this device - go directly to dash (sync in background)
+  // Try localStorage first
   var saved=localStorage.getItem('camp_u'+g);
   if(saved){
     try{
       cu=JSON.parse(saved);
+      cu.grade=parseInt(cu.grade)||g;
+      cu.currentDay=parseInt(cu.currentDay)||1;
+      if(cu.currentDay<1||cu.currentDay>30)cu.currentDay=1;
+      viewDay=0;
       renderDash();
       goPage('pg-dash');
-      // Background sync - find BEST record by name+grade (highest points)
+      // Sync in background - use best record by name
       sf('camp_students?name=eq.'+encodeURIComponent(cu.name)+'&grade=eq.'+cu.grade+'&select=*&order=points.desc').then(function(rows){
-        try{
-          if(rows&&rows.length>0){
-            var r=rows[0];
-            // Use the record with most points
-            cu.id=r.id;
-            cu.points=r.points||0;cu.streak=r.streak||0;
-            cu.currentDay=r.current_day||1;cu.doneTasks=r.done_tasks||{};
-            cu.doneBySubj=r.done_by_subj||{kaz:0,eng:0,math:0,logic:0};
-            cu.totalDone=r.total_done||0;cu.trialDays=r.trial_days||5;
-            cu.activated=r.activated||false;cu.daysUsed=r.days_used||0;
-            localStorage.setItem('camp_u'+g,JSON.stringify(cu));
-            renderDash();
-          }
-        }catch(e){}
-      }).catch(function(){});
+        if(!rows||!rows[0])return;
+        var r=rows[0];
+        cu.id=r.id;cu.points=r.points||0;cu.streak=r.streak||0;
+        cu.currentDay=r.current_day||1;cu.doneTasks=r.done_tasks||{};
+        cu.doneBySubj=r.done_by_subj||{kaz:0,eng:0,math:0,logic:0};
+        cu.totalDone=r.total_done||0;cu.trialDays=r.trial_days||5;
+        cu.activated=r.activated||false;cu.daysUsed=r.days_used||0;
+        localStorage.setItem('camp_u'+g,JSON.stringify(cu));
+        renderDash();
+      });
       return;
     }catch(e){localStorage.removeItem('camp_u'+g);}
   }
-  // Not logged in - show login/register form
-  document.getElementById('reg-title').textContent=icons[g];
-  document.getElementById('reg-first').value='';
-  document.getElementById('reg-last').value='';
-  document.getElementById('reg-desc').textContent='Аты-жөніңді жаз — кіру немесе тіркелу';
-  document.getElementById('reg-desc').style.color='';
-  document.getElementById('reg-btn').textContent='🔍 Тексеру / Кіру';
-  document.getElementById('reg-btn').disabled=false;
-  document.getElementById('reg-status').style.display='none';
+  // No saved data - show login form
+  var t=document.getElementById('reg-title');if(t)t.textContent=icons[g];
+  var d=document.getElementById('reg-desc');if(d){d.textContent='Аты-жөніңді жаз — кіру немесе тіркелу';d.style.color='';}
+  var f=document.getElementById('reg-first');if(f)f.value='';
+  var l=document.getElementById('reg-last');if(l)l.value='';
+  var rb=document.getElementById('reg-btn');if(rb){rb.textContent='🔍 Тексеру / Кіру';rb.disabled=false;}
   goPage('pg-register');
+}
+
+// REGISTER/LOGIN
+function doRegister(){
+  var f=(document.getElementById('reg-first').value||'').trim();
+  var l=(document.getElementById('reg-last').value||'').trim();
+  if(!f||!l){alert('Аты-жөніңді толық жаз!');return;}
+  var fullName=f+' '+l;
+  var btn=document.getElementById('reg-btn');
+  btn.textContent='⏳ Тексеруде...';btn.disabled=true;
+  // Search by name+grade, get highest points record
+  sf('camp_students?name=eq.'+encodeURIComponent(fullName)+'&grade=eq.'+selGrade+'&select=*&order=points.desc').then(function(rows){
+    btn.textContent='🔍 Тексеру / Кіру';btn.disabled=false;
+    if(rows&&rows.length>0){
+      var r=rows[0];
+      cu={id:r.id,name:r.name,grade:parseInt(r.grade)||selGrade,
+        points:r.points||0,streak:r.streak||0,currentDay:r.current_day||1,
+        doneTasks:r.done_tasks||{},doneBySubj:r.done_by_subj||{kaz:0,eng:0,math:0,logic:0},
+        totalDone:r.total_done||0,trialDays:r.trial_days||5,activated:r.activated||false,daysUsed:r.days_used||0};
+      localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+      viewDay=0;renderDash();goPage('pg-dash');
+      showSync('✅ Қош келдің, '+cu.name+'!',false);
+    } else {
+      // New registration
+      var newId=Date.now()+'_'+Math.random().toString(36).substr(2,6);
+      var u={id:newId,name:fullName,grade:selGrade,points:0,streak:0,currentDay:1,
+        doneTasks:{},doneBySubj:{kaz:0,eng:0,math:0,logic:0},totalDone:0,trialDays:5,activated:false,daysUsed:0};
+      sf('camp_students','POST',{id:u.id,name:u.name,grade:u.grade,points:0,streak:0,current_day:1,
+        done_tasks:{},done_by_subj:{kaz:0,eng:0,math:0,logic:0},total_done:0,trial_days:5,activated:false,days_used:0
+      }).then(function(){showSync('✅ Тіркелді!',false);}).catch(function(){});
+      cu=u;localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+      viewDay=0;renderDash();goPage('pg-dash');
+    }
+  }).catch(function(){
+    btn.textContent='🔍 Тексеру / Кіру';btn.disabled=false;
+    // Offline fallback
+    var saved=localStorage.getItem('camp_u'+selGrade);
+    if(saved){
+      try{
+        var p=JSON.parse(saved);
+        if(p.name.toLowerCase()===fullName.toLowerCase()){
+          cu=p;viewDay=0;renderDash();goPage('pg-dash');
+          showSync('📶 Оффлайн режим',false);return;
+        }
+      }catch(e){}
+    }
+    // Create offline account
+    var u={id:'tmp_'+Date.now(),name:fullName,grade:selGrade,points:0,streak:0,currentDay:1,
+      doneTasks:{},doneBySubj:{kaz:0,eng:0,math:0,logic:0},totalDone:0,trialDays:5,activated:false,daysUsed:0};
+    cu=u;localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+    viewDay=0;renderDash();goPage('pg-dash');showSync('📶 Оффлайн режим',false);
+  });
 }
 
 function doLogout(){cu=null;if(countdownInterval)clearInterval(countdownInterval);goPage('pg-welcome');}
 
-function isLocked(){if(!cu)return true;if(cu.activated)return false;return cu.daysUsed>=cu.trialDays;}
-
 function updateTrialUI(){
-  var bar=document.getElementById('trial-bar');
-  if(!bar||!cu)return;
+  var bar=document.getElementById('trial-bar');if(!bar||!cu)return;
   if(cu.activated){bar.textContent='✅ Белсендірілген — 30 күн';bar.style.color='#43E97B';}
   else if(isLocked()){bar.textContent='🔒 Тегін мерзім аяқталды — Промокод керек';bar.style.color='#FF6584';}
-  else{var left=cu.trialDays-cu.daysUsed;bar.textContent='⏳ Тегін: '+left+' күн қалды';bar.style.color='#FFD700';}
+  else{bar.textContent='⏳ Тегін: '+((cu.trialDays||5)-(cu.daysUsed||0))+' күн қалды';bar.style.color='#FFD700';}
 }
 
 function renderDash(){
   if(!cu)return;
   try{
     var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};
-    var dname=document.getElementById('dash-name');
-    if(dname)dname.textContent=(icons[cu.grade]||'')+'  '+cu.name;
-    var dpts=document.getElementById('dash-pts');
-    if(dpts)dpts.textContent=cu.points+' ₸';
-    var ddone=document.getElementById('dash-done');
-    if(ddone)ddone.textContent=cu.totalDone;
-    var g=String(cu.grade),d=String(cu.currentDay||1);
-    var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
-    var mx=0;dt.forEach(function(t){mx+=t.pts;});
-    var dmax=document.getElementById('dash-max');
-    if(dmax)dmax.textContent=mx+' ₸';
-    var vd=viewDay||cu.currentDay||1;
-    var dlbl=document.getElementById('day-label');
-    if(dlbl)dlbl.textContent=vd+'-күн ('+vd+'/'+(cu.currentDay||1)+')';
-    var dprev=document.getElementById('day-prev');
-    var dnext=document.getElementById('day-next');
-    if(dprev)dprev.disabled=(vd<=1);
-    if(dnext)dnext.disabled=(vd>=(cu.currentDay||1));
+    var g=String(cu.grade||1),cd=parseInt(cu.currentDay)||1;
+    var vd=viewDay||cd;
+    var dt=(ALL_TASKS[g]&&ALL_TASKS[g][String(vd)])||[];
+    var mx=0;dt.forEach(function(t){mx+=t.pts||15;});
+    var el;
+    el=document.getElementById('dash-name');if(el)el.textContent=(icons[cu.grade]||'')+'  '+cu.name;
+    el=document.getElementById('dash-pts');if(el)el.textContent=(cu.points||0)+' ₸';
+    el=document.getElementById('dash-done');if(el)el.textContent=(cu.totalDone||0);
+    el=document.getElementById('dash-max');if(el)el.textContent=mx+' ₸';
+    el=document.getElementById('day-label');if(el)el.textContent=vd+'-күн ('+vd+'/'+cd+')';
+    el=document.getElementById('day-prev');if(el)el.disabled=(vd<=1);
+    el=document.getElementById('day-next');if(el)el.disabled=(vd>=cd);
     updateTrialUI();
     var ls=document.getElementById('locked-section');
     var dls=document.getElementById('day-locked-section');
@@ -845,7 +764,7 @@ function renderDash(){
     if(!ls||!dls||!dc)return;
     if(isLocked()){
       ls.style.display='block';dls.style.display='none';dc.style.display='none';
-    } else if(isDayLocked()){
+    } else if(isDayLocked()&&viewDay===0){
       ls.style.display='none';dls.style.display='block';dc.style.display='none';
       startCountdown();
     } else {
@@ -853,33 +772,17 @@ function renderDash(){
       if(countdownInterval){clearInterval(countdownInterval);countdownInterval=null;}
       renderTaskList();
     }
-  }catch(e){console.log('renderDash error:',e);}
+  }catch(e){console.log('renderDash:',e);}
 }
-
-var viewDay=0; // 0 means use cu.currentDay
 
 function changeDay(dir){
   if(!cu)return;
-  var vd=(viewDay||cu.currentDay)+dir;
-  vd=Math.max(1,Math.min(cu.currentDay,vd)); // Can't go beyond current day
+  var cd=parseInt(cu.currentDay)||1;
+  var vd=(viewDay||cd)+dir;
+  vd=Math.max(1,Math.min(cd,vd));
   viewDay=vd;
   renderDash();
 }
-
-function renderTaskList(){
-  var day=viewDay||cu.currentDay;
-  var dt=ALL_TASKS[String(cu.grade)][String(day)]||[];
-  curDayTasks=dt;
-  var tl={tf:'Дұрыс/Қате',choice:'Тест',write:'Жазу',input:'Есеп'};
-  var tc={tf:'tag-tf',choice:'tag-choice',write:'tag-write',input:'tag-write'};
-  var el=document.getElementById('tasks-list');el.innerHTML='';
-  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks[t.id];});
-  if(allDone&&day<cu.currentDay){
-    var doneDiv=document.createElement('div');
-    doneDiv.style.cssText='background:rgba(67,233,123,.1);border:1px solid rgba(67,233,123,.25);border-radius:14px;padding:14px;text-align:center;margin-bottom:10px;';
-    doneDiv.innerHTML='<div style="font-size:1.8rem;margin-bottom:4px">✅</div><div style="font-family:Fredoka One,cursive;font-size:.95rem;color:#43e97b">'+day+'-күн аяқталды!</div>';
-    el.appendChild(doneDiv);
-  }
 
 function applyPromo(){
   var code=(document.getElementById('promo-inp').value||'').trim().toUpperCase();
@@ -888,187 +791,326 @@ function applyPromo(){
     if(rows&&rows[0]&&!rows[0].used){
       cu.activated=true;saveUser();
       sf('camp_promos?code=eq.'+code,'PATCH',{used:true,used_by:cu.name});
-      renderDash();
-      alert('🎉 Промокод қабылданды! 30 күн белсендірілді!');
+      renderDash();alert('🎉 Промокод қабылданды! 30 күн белсендірілді!');
     }else{alert('❌ Промокод дұрыс емес немесе пайдаланылған!');}
   });
 }
 
-function doRegister(){
-  var f=document.getElementById('reg-first').value.trim();
-  var l=document.getElementById('reg-last').value.trim();
-  if(!f||!l){alert('Аты-жөніңді толық жаз!');return;}
-  var fullName=f+' '+l;
-  var statusEl=document.getElementById('reg-status');
-  var btn=document.getElementById('reg-btn');
-  btn.textContent='⏳ Тексеруде...';
-  btn.disabled=true;
-  statusEl.style.display='none';
-  // Search Supabase by name AND grade
-  sf('camp_students?name=eq.'+encodeURIComponent(fullName)+'&grade=eq.'+selGrade+'&select=*&order=points.desc').then(function(rows){
-    if(rows&&rows.length>0){
-      // FOUND - login, use record with most points
-      var r=rows[0];
-      for(var ri=1;ri<rows.length;ri++){
-        if((rows[ri].points||0)>(r.points||0)) r=rows[ri];
-      }
-      // Also clear old localStorage so we use the correct record ID
-      localStorage.removeItem('camp_u'+selGrade);
-      cu={
-        id:r.id,name:r.name,grade:r.grade,
-        points:r.points||0,streak:r.streak||0,
-        currentDay:r.current_day||1,
-        doneTasks:r.done_tasks||{},
-        doneBySubj:r.done_by_subj||{kaz:0,eng:0,math:0,logic:0},
-        totalDone:r.total_done||0,
-        trialDays:r.trial_days||5,
-        activated:r.activated||false,
-        daysUsed:r.days_used||0
-      };
-      localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
-      btn.textContent='🔍 Тексеру / Кіру';
-      btn.disabled=false;
-      // Ensure grade is number
-      cu.grade=parseInt(cu.grade)||selGrade;
-      cu.currentDay=parseInt(cu.currentDay)||1;
-      if(cu.currentDay<1||cu.currentDay>30) cu.currentDay=1;
-      localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
-      viewDay=0;
-      try{renderDash();}catch(e){console.log('renderDash error:',e);}
-      goPage('pg-dash');
-      showSync('✅ Қош келдің, '+cu.name+'!',false);
-    } else {
-      // NOT FOUND - new registration
-      var newId=Date.now()+'_'+Math.random().toString(36).substr(2,6);
-      var u={
-        id:newId,name:fullName,grade:selGrade,
-        points:0,streak:0,currentDay:1,
-        doneTasks:{},doneBySubj:{kaz:0,eng:0,math:0,logic:0},
-        totalDone:0,trialDays:5,activated:false,daysUsed:0
-      };
-      sf('camp_students','POST',{
-        id:u.id,name:u.name,grade:u.grade,
-        points:0,streak:0,current_day:1,
-        done_tasks:{},done_by_subj:{kaz:0,eng:0,math:0,logic:0},
-        total_done:0,trial_days:5,activated:false,days_used:0
-      }).then(function(res){
-        cu=u;
-        localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
-        btn.textContent='🔍 Тексеру / Кіру';
-        btn.disabled=false;
-        showSync('✅ Тіркелді!',false);
-        renderDash();
-        goPage('pg-dash');
-      }).catch(function(){
-        // Save locally even if Supabase fails
-        cu=u;
-        localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
-        btn.textContent='🔍 Тексеру / Кіру';
-        btn.disabled=false;
-        renderDash();
-        goPage('pg-dash');
-      });
-    }
-  }).catch(function(){
-    // Network error - try local storage first
-    btn.textContent='🔍 Тексеру / Кіру';
-    btn.disabled=false;
-    var saved=localStorage.getItem('camp_u'+selGrade);
-    if(saved){
-      try{
-        var parsed=JSON.parse(saved);
-        // Name matches locally - let them in without internet
-        if(parsed.name.toLowerCase()===fullName.toLowerCase()){
-          cu=parsed;
-          renderDash();
-          goPage('pg-dash');
-          showSync('📶 Оффлайн режим — деректер сақталған',false);
-          return;
-        }
-      }catch(e){}
-    }
-    // No local data - create temporary offline account
-    var tmpUser={
-      id:'tmp_'+Date.now(),name:fullName,grade:selGrade,
-      points:0,streak:0,currentDay:1,doneTasks:{},
-      doneBySubj:{kaz:0,eng:0,math:0,logic:0},
-      totalDone:0,trialDays:5,activated:false,daysUsed:0
-    };
-    cu=tmpUser;
-    localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
-    renderDash();
-    goPage('pg-dash');
-    showSync('📶 Оффлайн — интернет қосылғанда синхрондалады',false);
-  });
-}
-function changeDay(dir){cu.currentDay=Math.max(1,Math.min(30,cu.currentDay+dir));renderDash();}
-
 function renderTaskList(){
-  var dt=ALL_TASKS[String(cu.grade)][String(cu.currentDay)]||[];
+  if(!cu)return;
+  var g=String(cu.grade||1),vd=viewDay||(parseInt(cu.currentDay)||1);
+  var dt=(ALL_TASKS[g]&&ALL_TASKS[g][String(vd)])||[];
   curDayTasks=dt;
   var tl={tf:'Дұрыс/Қате',choice:'Тест',write:'Жазу',input:'Есеп'};
   var tc={tf:'tag-tf',choice:'tag-choice',write:'tag-write',input:'tag-write'};
-  var el=document.getElementById('tasks-list');el.innerHTML='';
+  var el=document.getElementById('tasks-list');if(!el)return;
+  el.innerHTML='';
+  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
+  if(allDone&&vd<(parseInt(cu.currentDay)||1)){
+    var b=document.createElement('div');b.className='day-done-banner';
+    b.innerHTML='<div style="font-size:1.8rem;margin-bottom:4px">✅</div><div style="font-family:Fredoka One,cursive;font-size:.95rem;color:#43E97B">'+vd+'-күн аяқталды!</div>';
+    el.appendChild(b);
+  }
   for(var i=0;i<dt.length;i++){
-    var t=dt[i],done=cu.doneTasks[t.id],half=cu.doneTasks[t.id+'_h'],ps=half?Math.floor(t.pts/2):t.pts;
+    var t=dt[i];
+    var done=(cu.doneTasks&&cu.doneTasks[t.id]);
+    var half=(cu.doneTasks&&cu.doneTasks[t.id+'_h']);
+    var ps=half?Math.floor((t.pts||15)/2):(t.pts||15);
     var d=document.createElement('div');
     d.className='task-item '+t.subj+(done?' done':'');
-    d.innerHTML='<div class="task-icon">'+t.icon+'</div><div class="task-info"><div class="task-title">'+t.title+(done?' ✅':'')+'</div><div class="task-sub">'+t.desc+'</div><span class="task-type-tag '+tc[t.type]+'">'+tl[t.type]+'</span></div><div class="task-pts'+(done?' done-pts':'')+'" >+'+ps+' ₸</div>';
+    d.innerHTML='<div class="task-icon">'+t.icon+'</div>'
+      +'<div class="task-info"><div class="task-title">'+t.title+(done?' ✅':'')+'</div>'
+      +'<div class="task-sub">'+t.desc+'</div>'
+      +'<span class="task-type-tag '+tc[t.type]+'">'+tl[t.type]+'</span></div>'
+      +'<div class="task-pts'+(done?' done-pts':'')+'" >+'+ps+' ₸</div>';
     if(!done){(function(idx){d.onclick=function(){openTask(idx);};})(i);}
     el.appendChild(d);
   }
 }
 
-function openTask(idx){curTask=curDayTasks[idx];curTaskIdx=idx;if(!curTask)return;selOpt=null;wrongCnt=0;document.getElementById('tv-title').textContent=curTask.title;document.getElementById('tv-sub').textContent=curTask.desc;document.getElementById('tv-pts').textContent='+'+curTask.pts+' теңге';var qEl=document.getElementById('q-text'),qt=curTask.q;var isPic=curTask.type==='choice'&&(qt.indexOf('Сурет')>=0||qt.indexOf('What is this')>=0||qt.indexOf('What color')>=0);if(isPic){var em=qt.match(/\p{Emoji_Presentation}/gu);if(em){qEl.innerHTML='<span style="font-size:3rem;display:block;text-align:center;margin-bottom:10px">'+em[0]+'</span>'+qt.replace(em[0],'').trim();}else{qEl.textContent=qt;}}else{qEl.textContent=qt;}document.getElementById('result-msg').className='result-msg';var cb=document.getElementById('check-btn'),nb=document.getElementById('next-btn');cb.disabled=false;cb.textContent='Тексеру ✔';nb.className='next-btn';var qo=document.getElementById('q-opts');qo.innerHTML='';if(curTask.type==='tf'){var row=document.createElement('div');row.className='tf-row';var bt=document.createElement('button');bt.className='tf-btn';bt.innerHTML='✅ Дұрыс';bt.onclick=function(){selTF(bt,'true');};var bf=document.createElement('button');bf.className='tf-btn';bf.innerHTML='❌ Қате';bf.onclick=function(){selTF(bf,'false');};row.appendChild(bt);row.appendChild(bf);qo.appendChild(row);}else if(curTask.type==='choice'){var od=document.createElement('div');od.className='options';for(var oi=0;oi<curTask.options.length;oi++){(function(opt){var b=document.createElement('button');b.className='opt-btn';b.textContent=opt;b.onclick=function(){selOp(b,opt);};od.appendChild(b);})(curTask.options[oi]);}qo.appendChild(od);}else if(curTask.type==='input'){var inp=document.createElement('input');inp.className='num-input';inp.id='inp-ans';inp.type='text';inp.placeholder='Жауабыңды жаз...';inp.autocomplete='off';inp.setAttribute('autocorrect','off');inp.setAttribute('autocapitalize','none');inp.style.cssText='position:relative;z-index:20;pointer-events:all;-webkit-user-select:text;user-select:text;';qo.appendChild(inp);setTimeout(function(){try{inp.focus();}catch(e){}},300);}else if(curTask.type==='write'){var ta=document.createElement('textarea');ta.className='write-area';ta.id='write-ans';ta.placeholder='Жауабыңды жаз...';qo.appendChild(ta);if(curTask.hint){var h=document.createElement('div');h.className='write-hint';h.textContent='💡 '+curTask.hint;qo.appendChild(h);}cb.textContent='Жіберу 📩';}goPage('pg-task');}
-function selTF(el,v){document.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');selOpt=v;}
-function selOp(el,v){document.querySelectorAll('.opt-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');selOpt=v;}
-function submitAns(){if(!curTask)return;var msg=document.getElementById('result-msg'),cb=document.getElementById('check-btn'),nb=document.getElementById('next-btn');if(curTask.type==='write'){var a=(document.getElementById('write-ans').value||'').trim();if(a.length<5){showMsg(msg,'✏️ Жауабыңды жаз!','bad');return;}award(false);showMsg(msg,'📩 Жіберілді! Өте жақсы!','info');cb.disabled=true;cb.textContent='✅ Жіберілді!';setTimeout(function(){celebrate();},1200);return;}var ua;if(curTask.type==='tf'){if(!selOpt){showMsg(msg,'Жауап таңда!','bad');return;}ua=selOpt;}else if(curTask.type==='choice'){if(!selOpt){showMsg(msg,'Жауап таңда!','bad');return;}ua=selOpt;}else{ua=(document.getElementById('inp-ans').value||'').trim();if(!ua){showMsg(msg,'Жауабыңды жаз!','bad');return;}}var ok=(ua.toString().toLowerCase()===curTask.answer.toString().toLowerCase());if(ok){showMsg(msg,'🎉 Дұрыс! Керемет!','good');cb.disabled=true;cb.textContent='✅ Дұрыс!';markOk();award(false);setTimeout(function(){celebrate();},1200);}else{wrongCnt++;var cl=curTask.type==='tf'?(curTask.answer==='true'?'✅ Дұрыс':'❌ Қате'):curTask.answer;showMsg(msg,'❌ Қате!\n\nДұрыс жауап: '+cl+'\n\n👇 Келесіге өтуге болады (жарты теңге)','bad');markErr();cb.disabled=true;nb.className='next-btn show';}}
-function markOk(){if(curTask.type==='choice'){document.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent===curTask.answer)b.classList.add('ok');});}else if(curTask.type==='tf'){document.querySelectorAll('.tf-btn').forEach(function(b){if(b.classList.contains('sel'))b.classList.add('ok');});}}
-function markErr(){if(curTask.type==='choice'){document.querySelectorAll('.opt-btn').forEach(function(b){if(b.classList.contains('sel'))b.classList.add('err');b.classList.remove('sel');});selOpt=null;}else if(curTask.type==='tf'){document.querySelectorAll('.tf-btn').forEach(function(b){if(b.classList.contains('sel'))b.classList.add('err');b.classList.remove('sel');});selOpt=null;}}
-function doNext(){award(true);var ni=-1;for(var i=curTaskIdx+1;i<curDayTasks.length;i++){if(!cu.doneTasks[curDayTasks[i].id]){ni=i;break;}}if(ni>=0){openTask(ni);}else{celebrate();}}
-function award(half){if(!cu||!curTask)return;if(!cu.doneTasks[curTask.id]){var pts=half?Math.floor(curTask.pts/2):curTask.pts;cu.doneTasks[curTask.id]=true;if(half)cu.doneTasks[curTask.id+'_h']=true;cu.points+=pts;cu.doneBySubj[curTask.subj]=(cu.doneBySubj[curTask.subj]||0)+1;cu.totalDone++;if(cu.totalDone===1){cu.streak++;cu.daysUsed++;}saveUser();checkDayCompletion();}}
-
-function checkDayCompletion(){
-  var dt=ALL_TASKS[String(cu.grade)][String(cu.currentDay)]||[];
-  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks[t.id];});
-  if(allDone){
-    // Mark today as the day we completed current day tasks
-    setLastAdvancedDate(cu.grade);
-    // Auto advance day counter if not last day
-    if(cu.currentDay<30){
-      cu.currentDay++;
-      saveUser();
+function openTask(idx){
+  curTask=curDayTasks[idx];curTaskIdx=idx;if(!curTask)return;
+  selOpt=null;wrongCnt=0;
+  document.getElementById('tv-title').textContent=curTask.title;
+  document.getElementById('tv-sub').textContent=curTask.desc;
+  document.getElementById('tv-pts').textContent='+'+curTask.pts+' теңге';
+  var qEl=document.getElementById('q-text'),qt=curTask.q;
+  var isPic=(qt.indexOf('What is this')>=0||qt.indexOf('What color')>=0);
+  if(isPic){var em=qt.match(/\p{Emoji_Presentation}/gu);if(em){qEl.innerHTML='<span style="font-size:3rem;display:block;text-align:center;margin-bottom:10px">'+em[0]+'</span>'+qt.replace(em[0],'').trim();}else{qEl.textContent=qt;}}
+  else{qEl.textContent=qt;}
+  document.getElementById('result-msg').className='result-msg';
+  var cb=document.getElementById('check-btn'),nb=document.getElementById('next-btn');
+  cb.disabled=false;cb.textContent='Тексеру ✔';nb.className='next-btn';
+  var qo=document.getElementById('q-opts');qo.innerHTML='';
+  if(curTask.type==='tf'){
+    var row=document.createElement('div');row.className='tf-row';
+    var bt=document.createElement('button');bt.className='tf-btn';bt.innerHTML='✅ Дұрыс';bt.onclick=function(){selTF(bt,'true');};
+    var bf=document.createElement('button');bf.className='tf-btn';bf.innerHTML='❌ Қате';bf.onclick=function(){selTF(bf,'false');};
+    row.appendChild(bt);row.appendChild(bf);qo.appendChild(row);
+  }else if(curTask.type==='choice'){
+    var od=document.createElement('div');od.className='options';
+    for(var oi=0;oi<curTask.options.length;oi++){
+      (function(opt){var b=document.createElement('button');b.className='opt-btn';b.textContent=opt;b.onclick=function(){selOp(b,opt);};od.appendChild(b);})(curTask.options[oi]);
     }
-    // Re-render so countdown appears
-    renderDash();
+    qo.appendChild(od);
+  }else if(curTask.type==='input'){
+    var inp=document.createElement('input');inp.className='num-input';inp.id='inp-ans';inp.type='text';inp.inputMode='decimal';inp.placeholder='Жауабыңды жаз...';inp.autocomplete='off';
+    inp.setAttribute('autocorrect','off');inp.setAttribute('autocapitalize','none');
+    qo.appendChild(inp);
+    setTimeout(function(){try{inp.focus();}catch(e){}},300);
+  }else if(curTask.type==='write'){
+    var ta=document.createElement('textarea');ta.className='write-area';ta.id='write-ans';ta.placeholder='Жауабыңды жаз...';qo.appendChild(ta);
+    if(curTask.hint){var h=document.createElement('div');h.style.cssText='font-size:.72rem;color:rgba(255,255,255,.45);margin-top:5px;font-style:italic;font-weight:700';h.textContent='💡 '+curTask.hint;qo.appendChild(h);}
+    cb.textContent='Жіберу 📩';
   }
+  goPage('pg-task');
 }
 
-function celebrate(){var half=(wrongCnt>0),pts=half?Math.floor(curTask.pts/2):curTask.pts;document.getElementById('cel-msg').textContent=curTask.title+(half?' (жарты теңге)':' ✅')+' орындалды!';document.getElementById('cel-pts').textContent='+'+pts+' ₸';goPage('pg-cel');}
+function selTF(el,v){document.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');selOpt=v;}
+function selOp(el,v){document.querySelectorAll('.opt-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');selOpt=v;}
+
+function submitAns(){
+  if(!curTask)return;
+  var msg=document.getElementById('result-msg'),cb=document.getElementById('check-btn'),nb=document.getElementById('next-btn');
+  if(curTask.type==='write'){
+    var a=(document.getElementById('write-ans').value||'').trim();
+    if(a.length<5){showMsg(msg,'✏️ Жауабыңды жаз!','bad');return;}
+    award(false);showMsg(msg,'📩 Жіберілді! Өте жақсы!','info');cb.disabled=true;cb.textContent='✅ Жіберілді!';
+    setTimeout(function(){celebrate();},1200);return;
+  }
+  var ua;
+  if(curTask.type==='tf'){if(!selOpt){showMsg(msg,'Жауап таңда!','bad');return;}ua=selOpt;}
+  else if(curTask.type==='choice'){if(!selOpt){showMsg(msg,'Жауап таңда!','bad');return;}ua=selOpt;}
+  else{ua=(document.getElementById('inp-ans').value||'').trim();if(!ua){showMsg(msg,'Жауабыңды жаз!','bad');return;}}
+  var ok=(ua.toString().toLowerCase().trim()===curTask.answer.toString().toLowerCase().trim());
+  if(ok){
+    showMsg(msg,'🎉 Дұрыс! Керемет!','good');cb.disabled=true;cb.textContent='✅ Дұрыс!';
+    markOk();award(false);setTimeout(function(){celebrate();},1200);
+  }else{
+    wrongCnt++;
+    var cl=curTask.type==='tf'?(curTask.answer==='true'?'✅ Дұрыс':'❌ Қате'):curTask.answer;
+    showMsg(msg,'❌ Қате!\n\nДұрыс жауап: '+cl+'\n\n👇 Келесіге өтуге болады (жарты теңге)','bad');
+    markErr();cb.disabled=true;nb.className='next-btn show';
+  }
+}
+function markOk(){
+  if(curTask.type==='choice'){document.querySelectorAll('.opt-btn').forEach(function(b){if(b.textContent===curTask.answer)b.classList.add('ok');});}
+  else if(curTask.type==='tf'){document.querySelectorAll('.tf-btn').forEach(function(b){if(b.classList.contains('sel'))b.classList.add('ok');});}
+}
+function markErr(){
+  if(curTask.type==='choice'){document.querySelectorAll('.opt-btn').forEach(function(b){if(b.classList.contains('sel'))b.classList.add('err');b.classList.remove('sel');});selOpt=null;}
+  else if(curTask.type==='tf'){document.querySelectorAll('.tf-btn').forEach(function(b){if(b.classList.contains('sel'))b.classList.add('err');b.classList.remove('sel');});selOpt=null;}
+}
+function doNext(){award(true);var ni=-1;for(var i=curTaskIdx+1;i<curDayTasks.length;i++){if(!cu.doneTasks||!cu.doneTasks[curDayTasks[i].id]){ni=i;break;}}if(ni>=0){openTask(ni);}else{celebrate();}}
+function award(half){
+  if(!cu||!curTask)return;
+  if(!cu.doneTasks)cu.doneTasks={};
+  if(!cu.doneTasks[curTask.id]){
+    var pts=half?Math.floor((curTask.pts||15)/2):(curTask.pts||15);
+    cu.doneTasks[curTask.id]=true;if(half)cu.doneTasks[curTask.id+'_h']=true;
+    cu.points=(cu.points||0)+pts;
+    if(!cu.doneBySubj)cu.doneBySubj={kaz:0,eng:0,math:0,logic:0};
+    cu.doneBySubj[curTask.subj]=(cu.doneBySubj[curTask.subj]||0)+1;
+    cu.totalDone=(cu.totalDone||0)+1;
+    if(cu.totalDone===1){cu.streak=(cu.streak||0)+1;cu.daysUsed=(cu.daysUsed||0)+1;}
+    saveUser();checkDayCompletion();
+  }
+}
+function checkDayCompletion(){
+  var g=String(cu.grade||1),d=String(cu.currentDay||1);
+  var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
+  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
+  if(allDone){
+    setLastAdvancedDate(cu.grade);
+    if((cu.currentDay||1)<30){cu.currentDay=(cu.currentDay||1)+1;saveUser();}
+    viewDay=0;renderDash();
+  }
+}
+function celebrate(){
+  var half=(wrongCnt>0),pts=half?Math.floor((curTask.pts||15)/2):(curTask.pts||15);
+  document.getElementById('cel-msg').textContent=curTask.title+(half?' (жарты теңге)':' ✅')+' орындалды!';
+  document.getElementById('cel-pts').textContent='+'+pts+' ₸';goPage('pg-cel');
+}
 function showMsg(el,txt,cls){el.textContent=txt;el.className='result-msg show '+cls;}
-function saveUser(){if(!cu)return;localStorage.setItem('camp_u'+cu.grade,JSON.stringify(cu));var body={points:cu.points,streak:cu.streak,current_day:cu.currentDay,done_tasks:cu.doneTasks,done_by_subj:cu.doneBySubj,total_done:cu.totalDone,activated:cu.activated,days_used:cu.daysUsed,updated_at:new Date().toISOString()};sf('camp_students?id=eq.'+cu.id,'PATCH',body).then(function(r){if(r)showSync('☁️ Сақталды!',false);else showSync('⚠️ Интернет жоқ',true);});}
-function checkAdminPin(){if(document.getElementById('admin-pin').value.trim()===ADMIN_PIN){loadAdminData();goPage('pg-admin');}else{alert('❌ PIN қате!');}}
-function checkCuratorPin(){if(document.getElementById('curator-pin').value.trim()===CURATOR_PIN){loadCuratorData();goPage('pg-curator');}else{alert('❌ PIN қате!');}}
-function loadAdminData(){sf('camp_students?select=*&order=points.desc').then(function(rows){if(!rows)return;allStudents=rows;renderAdminStudents(fGrade);var pts=0,done=0;rows.forEach(function(r){pts+=(r.points||0);done+=(r.total_done||0);});document.getElementById('adm-total').textContent=rows.length;document.getElementById('adm-pts').textContent=pts+' ₸';document.getElementById('adm-done').textContent=done;});sf('camp_promos?select=*&order=created_at.desc').then(function(rows){if(rows){promos=rows;renderPromos();}});}
-function loadCuratorData(){sf('camp_students?select=*&order=points.desc').then(function(rows){if(!rows)return;curStudents=rows;renderCuratorStudents(fCurGrade);var pts=0,done=0;rows.forEach(function(r){pts+=(r.points||0);done+=(r.total_done||0);});document.getElementById('cur-total').textContent=rows.length;document.getElementById('cur-pts').textContent=pts+' ₸';document.getElementById('cur-done').textContent=done;});}
+function saveUser(){
+  if(!cu)return;
+  localStorage.setItem('camp_u'+(cu.grade||1),JSON.stringify(cu));
+  if(cu.id&&cu.id.indexOf('tmp_')===0)return;
+  var body={points:cu.points||0,streak:cu.streak||0,current_day:cu.currentDay||1,done_tasks:cu.doneTasks||{},
+    done_by_subj:cu.doneBySubj||{},total_done:cu.totalDone||0,activated:cu.activated||false,days_used:cu.daysUsed||0,updated_at:new Date().toISOString()};
+  sf('camp_students?id=eq.'+cu.id,'PATCH',body).then(function(r){if(r)showSync('☁️ Сақталды!',false);else showSync('⚠️ Интернет жоқ',true);});
+}
+
+// ADMIN
+function checkAdminPin(){if((document.getElementById('admin-pin').value||'').trim()===ADMIN_PIN){loadAdminData();goPage('pg-admin');}else{alert('❌ PIN қате!');}}
+function checkCuratorPin(){if((document.getElementById('curator-pin').value||'').trim()===CURATOR_PIN){loadCuratorData();goPage('pg-curator');}else{alert('❌ PIN қате!');}}
+function loadAdminData(){
+  sf('camp_students?select=*&order=points.desc').then(function(rows){
+    if(!rows)return;allStudents=rows;renderAdminStudents(fGrade);
+    var pts=0,done=0;rows.forEach(function(r){pts+=(r.points||0);done+=(r.total_done||0);});
+    document.getElementById('adm-total').textContent=rows.length;
+    document.getElementById('adm-pts').textContent=pts+' ₸';
+    document.getElementById('adm-done').textContent=done;
+  });
+  sf('camp_promos?select=*&order=created_at.desc').then(function(rows){if(rows){promos=rows;renderPromos();}});
+}
+function loadCuratorData(){
+  sf('camp_students?select=*&order=points.desc').then(function(rows){
+    if(!rows)return;curStudents=rows;renderCuratorStudents(fCurGrade);
+    var pts=0,done=0;rows.forEach(function(r){pts+=(r.points||0);done+=(r.total_done||0);});
+    document.getElementById('cur-total').textContent=rows.length;
+    document.getElementById('cur-pts').textContent=pts+' ₸';
+    document.getElementById('cur-done').textContent=done;
+  });
+}
 function filterSt(g,el){fGrade=g;document.querySelectorAll('#pg-admin .filter-btn').forEach(function(b){b.classList.remove('active');});el.classList.add('active');renderAdminStudents(g);}
 function filterCur(g,el){fCurGrade=g;document.querySelectorAll('#pg-curator .filter-btn').forEach(function(b){b.classList.remove('active');});el.classList.add('active');renderCuratorStudents(g);}
-function renderAdminStudents(g){var list=g==='all'?allStudents:allStudents.filter(function(s){return String(s.grade)===String(g);});var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};var el=document.getElementById('admin-students-list');el.innerHTML='';var mx=list.length>0?Math.max.apply(null,list.map(function(s){return s.points||0;})):1;list.forEach(function(s,i){var pct=Math.round((s.points||0)/Math.max(mx,1)*100);var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';var d=document.createElement('div');d.className='student-card';d.innerHTML='<div class="sc-rank">'+medal+'</div><div class="sc-info"><div class="sc-name">'+(icons[s.grade]||'')+'  '+s.name+'</div><div class="sc-meta">'+s.grade+'-сынып · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅ Белсенді':'⏳ '+(s.days_used||0)+'/5')+'</div><div class="sc-bar"><div class="sc-fill" style="width:'+pct+'%"></div></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="sc-pts">'+(s.points||0)+' ₸</div><button class="sc-del" onclick="deleteStudent(\''+s.id+'\',\''+s.name+'\')">🗑️</button></div>';el.appendChild(d);});if(list.length===0){el.innerHTML='<div style="text-align:center;padding:18px;color:rgba(255,255,255,.35);font-weight:700">Оқушы жоқ</div>';}}
-function renderCuratorStudents(g){var list=g==='all'?curStudents:curStudents.filter(function(s){return String(s.grade)===String(g);});var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};var el=document.getElementById('curator-students-list');el.innerHTML='';var mx=list.length>0?Math.max.apply(null,list.map(function(s){return s.points||0;})):1;list.forEach(function(s,i){var pct=Math.round((s.points||0)/Math.max(mx,1)*100);var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';var d=document.createElement('div');d.className='student-card';d.innerHTML='<div class="sc-rank">'+medal+'</div><div class="sc-info"><div class="sc-name">'+(icons[s.grade]||'')+'  '+s.name+'</div><div class="sc-meta">'+s.grade+'-сынып · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅ Белсенді':'⏳ '+(s.days_used||0)+'/5')+'</div><div class="sc-bar"><div class="sc-fill" style="width:'+pct+'%"></div></div></div><div class="sc-pts">'+(s.points||0)+' ₸</div>';el.appendChild(d);});if(list.length===0){el.innerHTML='<div style="text-align:center;padding:18px;color:rgba(255,255,255,.35);font-weight:700">Оқушы жоқ</div>';}}
-function deleteStudent(id,name){if(!confirm('🗑️ «'+name+'» өшіру?\nДеректер қайтарылмайды!')){return;}sf('camp_students?id=eq.'+id,'DELETE').then(function(){showSync('✅ Өшірілді!',false);allStudents=allStudents.filter(function(s){return s.id!==id;});renderAdminStudents(fGrade);document.getElementById('adm-total').textContent=allStudents.length;});}
-function resetAll(){if(!confirm('⚠️ БАРЛЫҚ оқушылардың ұпайларын тазалау?')){return;}if(!confirm('Сенімдісіз бе? '+allStudents.length+' оқушы.')){return;}var promises=allStudents.map(function(s){return sf('camp_students?id=eq.'+s.id,'PATCH',{points:0,streak:0,current_day:1,done_tasks:{},done_by_subj:{kaz:0,eng:0,math:0,logic:0},total_done:0,activated:false,days_used:0,updated_at:new Date().toISOString()});});Promise.all(promises).then(function(){showSync('✅ Барлығы тазаланды!',false);loadAdminData();alert('✅ Барлық ұпайлар тазаланды!');});}
-function genPromo(){var code='',chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(var i=0;i<8;i++) code+=chars[Math.floor(Math.random()*chars.length)];sf('camp_promos','POST',{code:code,used:false,created_at:new Date().toISOString()}).then(function(r){if(r){promos.unshift({code:code,used:false});renderPromos();alert('🎫 Жаңа промокод:\n\n'+code+'\n\nОқушыға бер!');}});}
-function renderPromos(){var el=document.getElementById('promo-list');el.innerHTML='';promos.slice(0,15).forEach(function(p){var d=document.createElement('div');d.className='promo-item';d.innerHTML='<div class="promo-code">'+p.code+'</div><div class="promo-used">'+(p.used?'✅ '+p.used_by:'⬜ Бос')+'</div>';el.appendChild(d);});}
-function searchParent(){var query=(document.getElementById('parent-search').value||'').trim().toLowerCase();if(!query)return;sf('camp_students?select=*').then(function(rows){if(!rows)return;var found=rows.filter(function(s){return s.name.toLowerCase().indexOf(query)>=0;});var res=document.getElementById('parent-result'),empty=document.getElementById('parent-empty');if(found.length===0){res.style.display='none';empty.textContent='Оқушы табылмады: «'+query+'»';empty.style.display='block';return;}var s=found[0];var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};document.getElementById('pr-name').textContent=(icons[s.grade]||'')+' '+s.name;document.getElementById('pr-grade').textContent=s.grade+'-сынып';document.getElementById('pr-pts').textContent=(s.points||0)+' ₸';document.getElementById('pr-done').textContent=(s.total_done||0);document.getElementById('pr-act').textContent=s.activated?'✅ Белсенді':'⏳ Тегін ('+(s.days_used||0)+'/5 күн)';var ds=s.done_by_subj||{kaz:0,eng:0,math:0,logic:0};['kaz','eng','math','logic'].forEach(function(subj){var pct=Math.min(100,Math.round((ds[subj]||0)/(30*3)*100));document.getElementById('pr-'+subj).textContent=pct+'%';document.getElementById('prb-'+subj).style.width=pct+'%';});empty.style.display='none';res.style.display='block';});}
+function renderAdminStudents(g){
+  var list=g==='all'?allStudents:allStudents.filter(function(s){return String(s.grade)===String(g);});
+  var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};
+  var el=document.getElementById('admin-students-list');el.innerHTML='';
+  var mx=list.length>0?Math.max.apply(null,list.map(function(s){return s.points||0;})):1;
+  list.forEach(function(s,i){
+    var pct=Math.round((s.points||0)/Math.max(mx,1)*100);
+    var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
+    var d=document.createElement('div');d.className='student-card';
+    d.innerHTML='<div class="sc-rank">'+medal+'</div>'
+      +'<div class="sc-info"><div class="sc-name">'+(icons[s.grade]||'')+'  '+s.name+'</div>'
+      +'<div class="sc-meta">'+s.grade+'-сынып · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅ Белсенді':'⏳ '+(s.days_used||0)+'/5')+'</div>'
+      +'<div class="sc-bar"><div class="sc-fill" style="width:'+pct+'%"></div></div></div>'
+      +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">'
+      +'<div class="sc-pts">'+(s.points||0)+' ₸</div>'
+      +'<button class="sc-del" onclick="deleteStudent(\''+s.id+'\',\''+s.name+'\')">🗑️</button></div>';
+    el.appendChild(d);
+  });
+  if(!list.length)el.innerHTML='<div style="text-align:center;padding:18px;color:rgba(255,255,255,.35);font-weight:700">Оқушы жоқ</div>';
+}
+function renderCuratorStudents(g){
+  var list=g==='all'?curStudents:curStudents.filter(function(s){return String(s.grade)===String(g);});
+  var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};
+  var el=document.getElementById('curator-students-list');el.innerHTML='';
+  var mx=list.length>0?Math.max.apply(null,list.map(function(s){return s.points||0;})):1;
+  list.forEach(function(s,i){
+    var pct=Math.round((s.points||0)/Math.max(mx,1)*100);
+    var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
+    var d=document.createElement('div');d.className='student-card';
+    d.innerHTML='<div class="sc-rank">'+medal+'</div>'
+      +'<div class="sc-info"><div class="sc-name">'+(icons[s.grade]||'')+'  '+s.name+'</div>'
+      +'<div class="sc-meta">'+s.grade+'-сынып · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅ Белсенді':'⏳ '+(s.days_used||0)+'/5')+'</div>'
+      +'<div class="sc-bar"><div class="sc-fill" style="width:'+pct+'%"></div></div></div>'
+      +'<div class="sc-pts">'+(s.points||0)+' ₸</div>';
+    el.appendChild(d);
+  });
+  if(!list.length)el.innerHTML='<div style="text-align:center;padding:18px;color:rgba(255,255,255,.35);font-weight:700">Оқушы жоқ</div>';
+}
+function deleteStudent(id,name){
+  if(!confirm('🗑️ «'+name+'» өшіру?'))return;
+  sf('camp_students?id=eq.'+id,'DELETE').then(function(){
+    showSync('✅ Өшірілді!',false);
+    allStudents=allStudents.filter(function(s){return s.id!==id;});
+    renderAdminStudents(fGrade);
+    document.getElementById('adm-total').textContent=allStudents.length;
+  });
+}
+function resetAll(){
+  if(!confirm('⚠️ БАРЛЫҚ оқушылардың ұпайларын тазалау?'))return;
+  if(!confirm('Сенімдісіз бе? '+allStudents.length+' оқушы.'))return;
+  Promise.all(allStudents.map(function(s){
+    return sf('camp_students?id=eq.'+s.id,'PATCH',{points:0,streak:0,current_day:1,done_tasks:{},done_by_subj:{kaz:0,eng:0,math:0,logic:0},total_done:0,activated:false,days_used:0,updated_at:new Date().toISOString()});
+  })).then(function(){showSync('✅ Барлығы тазаланды!',false);loadAdminData();alert('✅ Барлық ұпайлар тазаланды!');});
+}
+function genPromo(){
+  var code='',chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  for(var i=0;i<8;i++)code+=chars[Math.floor(Math.random()*chars.length)];
+  sf('camp_promos','POST',{code:code,used:false,created_at:new Date().toISOString()}).then(function(r){
+    if(r){promos.unshift({code:code,used:false});renderPromos();alert('🎫 Жаңа промокод:\n\n'+code+'\n\nОқушыға бер!');}
+  });
+}
+function renderPromos(){
+  var el=document.getElementById('promo-list');el.innerHTML='';
+  promos.slice(0,15).forEach(function(p){
+    var d=document.createElement('div');d.className='promo-item';
+    d.innerHTML='<div class="promo-code">'+p.code+'</div><div class="promo-used">'+(p.used?'✅ '+p.used_by:'⬜ Бос')+'</div>';
+    el.appendChild(d);
+  });
+}
+function searchParent(){
+  var query=(document.getElementById('parent-search').value||'').trim().toLowerCase();
+  if(!query)return;
+  sf('camp_students?select=*').then(function(rows){
+    if(!rows)return;
+    var found=rows.filter(function(s){return s.name.toLowerCase().indexOf(query)>=0;});
+    var res=document.getElementById('parent-result'),empty=document.getElementById('parent-empty');
+    if(!found.length){res.style.display='none';empty.textContent='Оқушы табылмады: «'+query+'»';empty.style.display='block';return;}
+    var s=found[0];var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};
+    document.getElementById('pr-name').textContent=(icons[s.grade]||'')+' '+s.name;
+    document.getElementById('pr-grade').textContent=s.grade+'-сынып';
+    document.getElementById('pr-pts').textContent=(s.points||0)+' ₸';
+    document.getElementById('pr-done').textContent=(s.total_done||0);
+    document.getElementById('pr-act').textContent=s.activated?'✅ Белсенді':'⏳ Тегін ('+(s.days_used||0)+'/5 күн)';
+    var ds=s.done_by_subj||{kaz:0,eng:0,math:0,logic:0};
+    ['kaz','eng','math','logic'].forEach(function(subj){
+      var pct=Math.min(100,Math.round((ds[subj]||0)/(30*3)*100));
+      document.getElementById('pr-'+subj).textContent=pct+'%';
+      document.getElementById('prb-'+subj).style.width=pct+'%';
+    });
+    empty.style.display='none';res.style.display='block';
+  });
+}
 
 // GUIDE
-var gCurDay=0,gDoneDays=[];
-try{gDoneDays=JSON.parse(localStorage.getItem('guide_done')||'[]');}catch(e){}
-function renderGuideHome(){var grid=document.getElementById('guide-days-grid');if(!grid)return;grid.innerHTML='';var si=['🔢','➗','½','·','%','X','📐','📦','📈','🎲','⚫','🧩','🔀','🕸','🌀','💡','📊','📝','📉','🏆'];for(var i=0;i<20;i++){var done=gDoneDays.indexOf(i)>=0;var div=document.createElement('div');div.className='day-dot'+(done?' done':'');div.innerHTML='<span class="dn">'+(i+1)+'</span><span class="di">'+(i<si.length?si[i]:'⭐')+'</span>';(function(idx){div.onclick=function(){gOpenDay(idx);};})(i);grid.appendChild(div);}}
-function gOpenDay(idx){gCurDay=idx;var d=GUIDE_DATA[idx];if(!d)return;document.getElementById('gday-badge').textContent=(idx+1)+'-күн';document.getElementById('gday-title').textContent=d.title;document.getElementById('gday-title-ru').textContent=d.title_ru;document.getElementById('gtheory').textContent=d.theory.replace(/\\n/g,'\n');document.getElementById('gexample').textContent=d.example.replace(/\\n/g,'\n');document.getElementById('gprev-btn').disabled=(idx===0);document.getElementById('gnext-btn').disabled=(idx===19);var pct=Math.round(gDoneDays.length/20*100);document.getElementById('gpbar-fill').style.width=pct+'%';document.getElementById('gpbar-lbl').textContent=gDoneDays.length+'/20 күн';document.getElementById('gpbar-pct').textContent=pct+'%';var tl=document.getElementById('gtask-list');tl.innerHTML='';for(var i=0;i<d.tasks.length;i++){var t=d.tasks[i];var hid='gh'+idx+'_'+i,aid='ga'+idx+'_'+i;var div=document.createElement('div');div.className='gtask';var inner='<div class="gtask-num">'+(i+1)+'-тапсырма</div><div class="gtask-q">'+t.q.replace(/\\n/g,'\n')+'</div><div class="gbtn-row"><button class="ghint-btn" onclick="gTog(\''+hid+'\')">💡 Кеңес</button><button class="gans-btn" onclick="gTog(\''+aid+'\')">✅ Жауап</button></div><div class="ghint-box" id="'+hid+'">'+t.hint+'</div><div class="gans-box" id="'+aid+'">'+t.ans+'</div>';div.innerHTML=inner;tl.appendChild(div);}var isDone=gDoneDays.indexOf(idx)>=0;document.getElementById('gdone-btn').style.display=isDone?'none':'block';document.getElementById('gdone-check').className='gdone-check'+(isDone?' gshow':'');goPage('pg-guide-day');}
+function renderGuideHome(){
+  var grid=document.getElementById('guide-days-grid');if(!grid)return;
+  grid.innerHTML='';
+  var si=['🔢','➗','½','·','%','X','📐','📦','📈','🎲','⚫','🧩','🔀','🕸','🌀','💡','📊','📝','📉','🏆'];
+  for(var i=0;i<20;i++){
+    var done=gDoneDays.indexOf(i)>=0;
+    var div=document.createElement('div');div.className='day-dot'+(done?' done':'');
+    div.innerHTML='<span class="dn">'+(i+1)+'</span><span class="di">'+(si[i]||'⭐')+'</span>';
+    (function(idx){div.onclick=function(){gOpenDay(idx);};})(i);
+    grid.appendChild(div);
+  }
+}
+function gOpenDay(idx){
+  gCurDay=idx;var d=GUIDE_DATA[idx];if(!d)return;
+  document.getElementById('gday-badge').textContent=(idx+1)+'-күн';
+  document.getElementById('gday-title').textContent=d.title;
+  document.getElementById('gday-title-ru').textContent=d.title_ru;
+  document.getElementById('gtheory').textContent=d.theory.replace(/\\n/g,'\n');
+  document.getElementById('gexample').textContent=d.example.replace(/\\n/g,'\n');
+  document.getElementById('gprev-btn').disabled=(idx===0);
+  document.getElementById('gnext-btn').disabled=(idx===19);
+  var pct=Math.round(gDoneDays.length/20*100);
+  document.getElementById('gpbar-fill').style.width=pct+'%';
+  document.getElementById('gpbar-lbl').textContent=gDoneDays.length+'/20 күн';
+  document.getElementById('gpbar-pct').textContent=pct+'%';
+  var tl=document.getElementById('gtask-list');tl.innerHTML='';
+  for(var i=0;i<d.tasks.length;i++){
+    var t=d.tasks[i],hid='gh'+idx+'_'+i,aid='ga'+idx+'_'+i;
+    var div=document.createElement('div');div.className='gtask';
+    div.innerHTML='<div class="gtask-num">'+(i+1)+'-тапсырма</div>'
+      +'<div class="gtask-q">'+t.q.replace(/\\n/g,'\n')+'</div>'
+      +'<div class="gbtn-row"><button class="ghint-btn" onclick="gTog(\''+hid+'\')">💡 Кеңес</button><button class="gans-btn" onclick="gTog(\''+aid+'\')">✅ Жауап</button></div>'
+      +'<div class="ghint-box" id="'+hid+'">'+t.hint+'</div>'
+      +'<div class="gans-box" id="'+aid+'">'+t.ans+'</div>';
+    tl.appendChild(div);
+  }
+  var isDone=gDoneDays.indexOf(idx)>=0;
+  document.getElementById('gdone-btn').style.display=isDone?'none':'block';
+  document.getElementById('gdone-check').className='gdone-check'+(isDone?' gshow':'');
+  goPage('pg-guide-day');
+}
 function gNavDay(dir){var next=gCurDay+dir;if(next>=0&&next<20)gOpenDay(next);}
 function gTog(id){var el=document.getElementById(id);if(el){if(el.classList.contains('gshow'))el.classList.remove('gshow');else el.classList.add('gshow');}}
-function gMarkDone(){if(gDoneDays.indexOf(gCurDay)<0){gDoneDays.push(gCurDay);try{localStorage.setItem('guide_done',JSON.stringify(gDoneDays));}catch(e){}}document.getElementById('gdone-btn').style.display='none';document.getElementById('gdone-check').className='gdone-check gshow';var pct=Math.round(gDoneDays.length/20*100);document.getElementById('gpbar-fill').style.width=pct+'%';document.getElementById('gpbar-lbl').textContent=gDoneDays.length+'/20 күн';document.getElementById('gpbar-pct').textContent=pct+'%';if(gDoneDays.length===20)alert('🏆 КЕРЕМЕТ! 20 күн аяқталды! Сен чемпионсың!');}
+function gMarkDone(){
+  if(gDoneDays.indexOf(gCurDay)<0){gDoneDays.push(gCurDay);try{localStorage.setItem('guide_done',JSON.stringify(gDoneDays));}catch(e){}}
+  document.getElementById('gdone-btn').style.display='none';
+  document.getElementById('gdone-check').className='gdone-check gshow';
+  var pct=Math.round(gDoneDays.length/20*100);
+  document.getElementById('gpbar-fill').style.width=pct+'%';
+  document.getElementById('gpbar-lbl').textContent=gDoneDays.length+'/20 күн';
+  document.getElementById('gpbar-pct').textContent=pct+'%';
+  if(gDoneDays.length===20)alert('🏆 КЕРЕМЕТ! 20 күн аяқталды! Сен чемпионсың!');
 }
 </script>
 </body>
