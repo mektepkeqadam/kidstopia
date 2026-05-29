@@ -651,19 +651,40 @@ function isDayLocked(){
 }
 
 function tryAdvanceDay(){
-  // Called every time user opens the app
-  // If last completion was on a PREVIOUS calendar day → advance currentDay
   if(!cu)return;
   var lad=getLastAdvancedDate(cu.grade);
-  if(!lad)return; // Never completed any day
+  if(!lad)return;
   var today=getTodayKey();
-  if(lad!==today){
-    // New day has started since last completion → advance
-    var newDay=(parseInt(cu.currentDay)||1)+1;
-    if(newDay>30)newDay=30;
-    cu.currentDay=newDay;
+  if(lad===today)return; // Already processed today
+  // New calendar day → can advance
+  var currentDay=parseInt(cu.currentDay)||1;
+  if(currentDay>=30)return;
+  // Check if current day tasks are done (should advance)
+  var g=String(cu.grade),d=String(currentDay);
+  var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
+  var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
+  if(allDone){
+    // Advance to next day
+    cu.currentDay=currentDay+1;
+    if(cu.currentDay>30)cu.currentDay=30;
     saveUser();
-    console.log('Day advanced to',newDay);
+    // Check if next day is ALSO already done (catch-up scenario)
+    // Keep advancing until we find an incomplete day or reach today
+    var maxAdvance=5; // Safety limit
+    while(maxAdvance>0){
+      maxAdvance--;
+      var nd=parseInt(cu.currentDay);
+      if(nd>=30)break;
+      var ndt=(ALL_TASKS[g]&&ALL_TASKS[g][String(nd)])||[];
+      var nDone=ndt.length>0&&ndt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
+      if(nDone){
+        cu.currentDay=nd+1;
+        if(cu.currentDay>30)cu.currentDay=30;
+        saveUser();
+      } else {
+        break; // Found an incomplete day - stop here
+      }
+    }
   }
 }
 function isLocked(){
