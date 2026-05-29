@@ -188,6 +188,7 @@ input,textarea{-webkit-user-select:text!important;user-select:text!important;fon
 .sc-meta{font-size:.64rem;color:var(--muted);font-weight:700}
 .sc-pts{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.25);border-radius:9px;padding:3px 9px;font-weight:900;font-size:.8rem;color:#FFD700}
 .sc-del{background:rgba(255,101,132,.12);border:1px solid rgba(255,101,132,.25);border-radius:7px;padding:3px 8px;color:#FF6584;font-size:.7rem;font-weight:800;touch-action:manipulation;margin-left:4px}
+.sc-adv{background:rgba(67,233,123,.12);border:1px solid rgba(67,233,123,.25);border-radius:7px;padding:3px 8px;color:#43E97B;font-size:.7rem;font-weight:800;touch-action:manipulation;margin-left:4px}
 .sc-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:5px;overflow:hidden}
 .sc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#6C63FF,#FD79A8)}
 .promo-sec{margin:12px;background:var(--card);border:1px solid var(--border);border-radius:15px;padding:14px}
@@ -454,6 +455,9 @@ input,textarea{-webkit-user-select:text!important;user-select:text!important;fon
   <div class="students-list" id="admin-students-list"></div>
   <div class="promo-sec">
     <h3>🎫 Промокодтар</h3>
+    <div style="margin-bottom:10px">
+      <button onclick="advanceAllDay()" style="width:100%;background:linear-gradient(135deg,rgba(67,233,123,.2),rgba(56,249,215,.15));border:1px solid rgba(67,233,123,.35);color:#43E97B;border-radius:11px;padding:11px;font-size:.88rem;font-weight:800;touch-action:manipulation;margin-bottom:7px">➡️ Барлық аяқталғандарды келесі күнге өткізу</button>
+    </div>
     <button class="promo-gen-btn" onclick="genPromo()">+ Жаңа промокод жасау</button>
     <div class="promo-list" id="promo-list"></div>
     <button class="reset-all-btn" onclick="resetAll()">🔄 Барлық ұпайды тазалау</button>
@@ -1087,11 +1091,12 @@ function renderAdminStudents(g){
     var d=document.createElement('div');d.className='student-card';
     d.innerHTML='<div class="sc-rank">'+medal+'</div>'
       +'<div class="sc-info"><div class="sc-name">'+(icons[s.grade]||'')+'  '+s.name+'</div>'
-      +'<div class="sc-meta">'+s.grade+'-сынып · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅ Белсенді':'⏳ '+(s.days_used||0)+'/5')+'</div>'
+      +'<div class="sc-meta">'+s.grade+'-сынып · '+(s.current_day||1)+'-күн · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅':'⏳ '+(s.days_used||0)+'/5')+'</div>'
       +'<div class="sc-bar"><div class="sc-fill" style="width:'+pct+'%"></div></div></div>'
       +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">'
-      +'<div class="sc-pts">'+(s.points||0)+' ₸</div>'
-      +'<button class="sc-del" onclick="deleteStudent(\''+s.id+'\',\''+s.name+'\')">🗑️</button></div>';
+      +'<button class="sc-adv" data-id=\''+s.id+'\' data-day=\''+( s.current_day||1)+'\' onclick="var b=this;advanceStudentDay(b.dataset.id,\''+s.name+'\',b.dataset.day)">➡️ '+((s.current_day||1)+1)+'</button>'
+
+      +'<button class="sc-del" data-id=\''+s.id+'\' onclick="var b=this;deleteStudent(b.dataset.id,\''+s.name+'\')" >🗑️</button></div>';
     el.appendChild(d);
   });
   if(!list.length)el.innerHTML='<div style="text-align:center;padding:18px;color:rgba(255,255,255,.35);font-weight:700">Оқушы жоқ</div>';
@@ -1114,6 +1119,48 @@ function renderCuratorStudents(g){
   });
   if(!list.length)el.innerHTML='<div style="text-align:center;padding:18px;color:rgba(255,255,255,.35);font-weight:700">Оқушы жоқ</div>';
 }
+function advanceStudentDay(id,name,currentDay){
+  var nextDay=(parseInt(currentDay)||1)+1;
+  if(nextDay>30){alert(name+' 30-күнде тұр — максимум!');return;}
+  if(!confirm('➡️ «'+name+'»\n'+currentDay+'-күн → '+nextDay+'-күнге өткізу?'))return;
+  sf('camp_students?id=eq.'+id,'PATCH',{
+    current_day:nextDay,
+    updated_at:new Date().toISOString()
+  }).then(function(r){
+    showSync('✅ '+name+' → '+nextDay+'-күнге өтті!',false);
+    loadAdminData();
+  }).catch(function(){
+    showSync('⚠️ Қате — интернет тексеріңіз',true);
+  });
+}
+
+function advanceAllDay(){
+  // Advance ALL students who have completed their current day
+  if(!confirm('⚠️ Барлық аяқталған оқушыларды келесі күнге өткізу?'))return;
+  var count=0;
+  var promises=allStudents.map(function(s){
+    var g=String(s.grade),d=String(s.current_day||1);
+    var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
+    var allDone=dt.length>0&&dt.every(function(t){
+      var tasks=s.done_tasks||{};
+      return tasks[t.id];
+    });
+    if(allDone&&(s.current_day||1)<30){
+      count++;
+      return sf('camp_students?id=eq.'+s.id,'PATCH',{
+        current_day:(s.current_day||1)+1,
+        updated_at:new Date().toISOString()
+      });
+    }
+    return Promise.resolve();
+  });
+  Promise.all(promises).then(function(){
+    showSync('✅ '+count+' оқушы келесі күнге өтті!',false);
+    loadAdminData();
+    alert('✅ '+count+' оқушы жылжытылды!');
+  });
+}
+
 function deleteStudent(id,name){
   if(!confirm('🗑️ «'+name+'» өшіру?'))return;
   sf('camp_students?id=eq.'+id,'DELETE').then(function(){
