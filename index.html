@@ -803,6 +803,77 @@ function selectGrade(g){
   document.getElementById('reg-status').style.display='none';
   goPage('pg-register');
 }
+
+function doLogout(){cu=null;if(countdownInterval)clearInterval(countdownInterval);goPage('pg-welcome');}
+
+function isLocked(){if(!cu)return true;if(cu.activated)return false;return cu.daysUsed>=cu.trialDays;}
+
+function updateTrialUI(){
+  var bar=document.getElementById('trial-bar');
+  if(!bar||!cu)return;
+  if(cu.activated){bar.textContent='✅ Белсендірілген — 30 күн';bar.style.color='#43E97B';}
+  else if(isLocked()){bar.textContent='🔒 Тегін мерзім аяқталды — Промокод керек';bar.style.color='#FF6584';}
+  else{var left=cu.trialDays-cu.daysUsed;bar.textContent='⏳ Тегін: '+left+' күн қалды';bar.style.color='#FFD700';}
+}
+
+function renderDash(){
+  if(!cu)return;
+  try{
+    var icons={1:'🌱',2:'🌿',3:'🌳',4:'🚀',5:'⭐'};
+    var dname=document.getElementById('dash-name');
+    if(dname)dname.textContent=(icons[cu.grade]||'')+'  '+cu.name;
+    var dpts=document.getElementById('dash-pts');
+    if(dpts)dpts.textContent=cu.points+' ₸';
+    var ddone=document.getElementById('dash-done');
+    if(ddone)ddone.textContent=cu.totalDone;
+    var g=String(cu.grade),d=String(cu.currentDay||1);
+    var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
+    var mx=0;dt.forEach(function(t){mx+=t.pts;});
+    var dmax=document.getElementById('dash-max');
+    if(dmax)dmax.textContent=mx+' ₸';
+    var dlbl=document.getElementById('day-label');
+    if(dlbl)dlbl.textContent=(cu.currentDay||1)+'-күн ('+(cu.currentDay||1)+'/30)';
+    var dprev=document.getElementById('day-prev');
+    var dnext=document.getElementById('day-next');
+    if(dprev)dprev.disabled=((cu.currentDay||1)<=1);
+    if(dnext)dnext.disabled=((cu.currentDay||1)>=30);
+    updateTrialUI();
+    var ls=document.getElementById('locked-section');
+    var dls=document.getElementById('day-locked-section');
+    var dc=document.getElementById('dash-content');
+    if(!ls||!dls||!dc)return;
+    if(isLocked()){
+      ls.style.display='block';dls.style.display='none';dc.style.display='none';
+    } else if(isDayLocked()){
+      ls.style.display='none';dls.style.display='block';dc.style.display='none';
+      startCountdown();
+    } else {
+      ls.style.display='none';dls.style.display='none';dc.style.display='block';
+      if(countdownInterval){clearInterval(countdownInterval);countdownInterval=null;}
+      renderTaskList();
+    }
+  }catch(e){console.log('renderDash error:',e);}
+}
+
+function changeDay(dir){
+  if(!cu)return;
+  cu.currentDay=Math.max(1,Math.min(30,(cu.currentDay||1)+dir));
+  renderDash();
+}
+
+function applyPromo(){
+  var code=(document.getElementById('promo-inp').value||'').trim().toUpperCase();
+  if(!code)return;
+  sf('camp_promos?code=eq.'+code+'&select=*').then(function(rows){
+    if(rows&&rows[0]&&!rows[0].used){
+      cu.activated=true;saveUser();
+      sf('camp_promos?code=eq.'+code,'PATCH',{used:true,used_by:cu.name});
+      renderDash();
+      alert('🎉 Промокод қабылданды! 30 күн белсендірілді!');
+    }else{alert('❌ Промокод дұрыс емес немесе пайдаланылған!');}
+  });
+}
+
 function doRegister(){
   var f=document.getElementById('reg-first').value.trim();
   var l=document.getElementById('reg-last').value.trim();
@@ -837,9 +908,14 @@ function doRegister(){
       localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
       btn.textContent='🔍 Тексеру / Кіру';
       btn.disabled=false;
-      showSync('✅ Қош келдің, '+cu.name+'!',false);
-      renderDash();
+      // Ensure grade is number
+      cu.grade=parseInt(cu.grade)||selGrade;
+      cu.currentDay=parseInt(cu.currentDay)||1;
+      if(cu.currentDay<1||cu.currentDay>30) cu.currentDay=1;
+      localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+      try{renderDash();}catch(e){console.log('renderDash error:',e);}
       goPage('pg-dash');
+      showSync('✅ Қош келдің, '+cu.name+'!',false);
     } else {
       // NOT FOUND - new registration
       var newId=Date.now()+'_'+Math.random().toString(36).substr(2,6);
