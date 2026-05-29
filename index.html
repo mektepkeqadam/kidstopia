@@ -873,24 +873,35 @@ function doRegister(){
       });
     }
   }).catch(function(){
-    // Network error - check locally
+    // Network error - try local storage first
+    btn.textContent='🔍 Тексеру / Кіру';
+    btn.disabled=false;
     var saved=localStorage.getItem('camp_u'+selGrade);
     if(saved){
       try{
         var parsed=JSON.parse(saved);
-        if(parsed.name===fullName){
+        // Name matches locally - let them in without internet
+        if(parsed.name.toLowerCase()===fullName.toLowerCase()){
           cu=parsed;
-          btn.textContent='🔍 Тексеру / Кіру';
-          btn.disabled=false;
           renderDash();
           goPage('pg-dash');
+          showSync('📶 Оффлайн режим — деректер сақталған',false);
           return;
         }
       }catch(e){}
     }
-    btn.textContent='🔍 Тексеру / Кіру';
-    btn.disabled=false;
-    alert('⚠️ Интернет жоқ. Қосылып қайта көр.');
+    // No local data - create temporary offline account
+    var tmpUser={
+      id:'tmp_'+Date.now(),name:fullName,grade:selGrade,
+      points:0,streak:0,currentDay:1,doneTasks:{},
+      doneBySubj:{kaz:0,eng:0,math:0,logic:0},
+      totalDone:0,trialDays:5,activated:false,daysUsed:0
+    };
+    cu=tmpUser;
+    localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+    renderDash();
+    goPage('pg-dash');
+    showSync('📶 Оффлайн — интернет қосылғанда синхрондалады',false);
   });
 }
 function changeDay(dir){cu.currentDay=Math.max(1,Math.min(30,cu.currentDay+dir));renderDash();}
