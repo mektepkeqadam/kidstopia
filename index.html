@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="KidsCamp">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
 <title>Kidstopia Summer Camp</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
@@ -688,8 +690,16 @@ function doRegister(){
   var fullName=f+' '+l;
   var btn=document.getElementById('reg-btn');
   btn.textContent='⏳ Тексеруде...';btn.disabled=true;
+  // Timeout fallback for PWA mode
+  var done=false;
+  var timeout=setTimeout(function(){
+    if(done)return;done=true;
+    btn.textContent='🔍 Тексеру / Кіру';btn.disabled=false;
+    loginOffline(fullName);
+  },5000);
   // Search by name+grade, get highest points record
   sf('camp_students?name=eq.'+encodeURIComponent(fullName)+'&grade=eq.'+selGrade+'&select=*&order=points.desc').then(function(rows){
+    if(done)return;done=true;clearTimeout(timeout);
     btn.textContent='🔍 Тексеру / Кіру';btn.disabled=false;
     if(rows&&rows.length>0){
       var r=rows[0];
@@ -712,23 +722,39 @@ function doRegister(){
       viewDay=0;renderDash();goPage('pg-dash');
     }
   }).catch(function(){
+    if(done)return;done=true;clearTimeout(timeout);
     btn.textContent='🔍 Тексеру / Кіру';btn.disabled=false;
-    // Offline fallback
-    var saved=localStorage.getItem('camp_u'+selGrade);
-    if(saved){
-      try{
-        var p=JSON.parse(saved);
-        if(p.name.toLowerCase()===fullName.toLowerCase()){
-          cu=p;viewDay=0;renderDash();goPage('pg-dash');
-          showSync('📶 Оффлайн режим',false);return;
-        }
-      }catch(e){}
-    }
-    // Create offline account
-    var u={id:'tmp_'+Date.now(),name:fullName,grade:selGrade,points:0,streak:0,currentDay:1,
-      doneTasks:{},doneBySubj:{kaz:0,eng:0,math:0,logic:0},totalDone:0,trialDays:5,activated:false,daysUsed:0};
-    cu=u;localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
-    viewDay=0;renderDash();goPage('pg-dash');showSync('📶 Оффлайн режим',false);
+    loginOffline(fullName);
+  });
+}
+
+function loginOffline(fullName){
+  // Check localStorage first
+  var saved=localStorage.getItem('camp_u'+selGrade);
+  if(saved){
+    try{
+      var p=JSON.parse(saved);
+      if(p.name.toLowerCase()===fullName.toLowerCase()){
+        cu=p;viewDay=0;renderDash();goPage('pg-dash');
+        showSync('📶 Оффлайн режим — деректер сақталған',false);
+        return;
+      }
+    }catch(e){}
+  }
+  // Create new offline account
+  var u={id:'tmp_'+Date.now(),name:fullName,grade:selGrade,
+    points:0,streak:0,currentDay:1,doneTasks:{},
+    doneBySubj:{kaz:0,eng:0,math:0,logic:0},
+    totalDone:0,trialDays:5,activated:false,daysUsed:0};
+  cu=u;localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+  viewDay=0;renderDash();goPage('pg-dash');
+  showSync('📶 Оффлайн режим',false);
+  // Try to sync when back online
+  window.addEventListener('online',function syncOnline(){
+    window.removeEventListener('online',syncOnline);
+    sf('camp_students','POST',{id:u.id,name:u.name,grade:u.grade,points:0,streak:0,current_day:1,
+      done_tasks:{},done_by_subj:{kaz:0,eng:0,math:0,logic:0},total_done:0,trial_days:5,activated:false,days_used:0
+    }).then(function(){showSync('☁️ Онлайн — тіркелді!',false);});
   });
 }
 
