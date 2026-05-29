@@ -762,7 +762,39 @@ function updateCountdown(){
 function selectGrade(g){
   selGrade=g;
   var saved=localStorage.getItem('camp_u'+g);
-  if(saved){cu=JSON.parse(saved);sf('camp_students?id=eq.'+cu.id+'&select=*').then(function(rows){if(rows&&rows[0]){var r=rows[0];cu.points=r.points||0;cu.streak=r.streak||0;cu.currentDay=r.current_day||1;cu.doneTasks=r.done_tasks||{};cu.doneBySubj=r.done_by_subj||{kaz:0,eng:0,math:0,logic:0};cu.totalDone=r.total_done||0;cu.trialDays=r.trial_days||5;cu.activated=r.activated||false;cu.daysUsed=r.days_used||0;localStorage.setItem('camp_u'+g,JSON.stringify(cu));}renderDash();goPage('pg-dash');});return;}
+  if(saved){
+    var parsed=null;
+    try{parsed=JSON.parse(saved);}catch(e){localStorage.removeItem('camp_u'+g);}
+    if(parsed){
+      cu=parsed;
+      // Show dash immediately with local data, then sync from Supabase
+      renderDash();
+      goPage('pg-dash');
+      // Background sync
+      sf('camp_students?id=eq.'+cu.id+'&select=*').then(function(rows){
+        try{
+          if(rows&&rows[0]){
+            var r=rows[0];
+            cu.points=r.points||0;
+            cu.streak=r.streak||0;
+            cu.currentDay=r.current_day||1;
+            cu.doneTasks=r.done_tasks||{};
+            cu.doneBySubj=r.done_by_subj||{kaz:0,eng:0,math:0,logic:0};
+            cu.totalDone=r.total_done||0;
+            cu.trialDays=r.trial_days||5;
+            cu.activated=r.activated||false;
+            cu.daysUsed=r.days_used||0;
+            localStorage.setItem('camp_u'+g,JSON.stringify(cu));
+            renderDash();
+          }
+        }catch(e){console.log('Sync error:',e);}
+      }).catch(function(e){
+        // Network error - use local data, already shown
+        console.log('Network error, using local data');
+      });
+      return;
+    }
+  }
   var icons={1:'🌱 1-сынып',2:'🌿 2-сынып',3:'🌳 3-сынып',4:'🚀 4-сынып',5:'⭐ 5-сынып'};
   document.getElementById('reg-title').textContent=icons[g];goPage('pg-register');
 }
