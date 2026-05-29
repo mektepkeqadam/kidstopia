@@ -39,16 +39,16 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .icon-btn:hover{background:rgba(108,99,255,.3);border-color:#6C63FF;transform:scale(1.05)}
 
 /* HERO */
-.hero{padding:20px 20px 16px;text-align:center;position:relative;z-index:2}
-.hero-emoji{font-size:3rem;display:block;margin-bottom:8px;animation:float 3s ease-in-out infinite}
+.hero{padding:20px 20px 16px;text-align:center;position:relative;z-index:2;pointer-events:none}
+.hero-emoji{font-size:3rem;display:block;margin-bottom:8px;animation:float 3s ease-in-out infinite;pointer-events:none}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.hero-title{font-family:'Fredoka One',cursive;font-size:1.85rem;line-height:1.2;background:linear-gradient(135deg,#fff 0%,#A29BFE 60%,#FD79A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{color:var(--muted);font-size:.84rem;font-weight:700;margin-top:5px}
-.hero-chips{display:flex;justify-content:center;gap:7px;margin-top:10px;flex-wrap:wrap}
+.hero-title{font-family:'Fredoka One',cursive;font-size:1.85rem;line-height:1.2;background:linear-gradient(135deg,#fff 0%,#A29BFE 60%,#FD79A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;pointer-events:none}
+.hero-sub{color:var(--muted);font-size:.84rem;font-weight:700;margin-top:5px;pointer-events:none}
+.hero-chips{display:flex;justify-content:center;gap:7px;margin-top:10px;flex-wrap:wrap;pointer-events:none}
 .hero-chip{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:4px 11px;font-size:.7rem;font-weight:800;color:var(--muted)}
 
 /* GUIDE BANNER */
-.guide-banner{margin:0 18px 18px;background:linear-gradient(135deg,#2D1B69,#6C63FF);border-radius:20px;padding:15px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(108,99,255,.3);position:relative;overflow:hidden;border:1px solid rgba(108,99,255,.4)}
+.guide-banner{margin:0 18px 18px;background:linear-gradient(135deg,#2D1B69,#6C63FF);border-radius:20px;padding:15px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(108,99,255,.3);position:relative;overflow:hidden;border:1px solid rgba(108,99,255,.4);z-index:5}
 .guide-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:rgba(255,255,255,.07);border-radius:50%}
 .guide-banner:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(108,99,255,.45)}
 .gb-left{flex:1;position:relative;z-index:1}
@@ -58,9 +58,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .gb-right{font-size:2rem;position:relative;z-index:1}
 
 /* GRADE */
-.section-lbl{font-size:.68rem;font-weight:800;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;padding:0 20px 9px}
-.grade-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 14px}
-.grade-btn{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:16px 10px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;overflow:hidden}
+.section-lbl{font-size:.68rem;font-weight:800;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;padding:0 20px 9px;position:relative;z-index:5}
+.grade-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 14px;position:relative;z-index:5}
+.grade-btn{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:16px 10px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;overflow:hidden;z-index:5;touch-action:manipulation}
 .grade-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.03));border-radius:16px;pointer-events:none}
 .grade-btn:hover{transform:translateY(-3px)}
 .grade-btn:active{transform:scale(.97)}
@@ -81,7 +81,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .grade-btn.g5 .gb-pts{background:rgba(253,121,168,.15);color:#FD79A8}
 
 /* BOTTOM LINKS - 2x2 grid */
-.bottom-links{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 18px}
+.bottom-links{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 18px;position:relative;z-index:5}
 .blink{background:var(--glass);border:1px solid var(--border);border-radius:13px;padding:13px 14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:9px}
 .blink:hover{background:var(--glass2);border-color:var(--border2);transform:translateY(-1px)}
 .blink:active{transform:scale(.97)}
@@ -1069,6 +1069,7 @@ function gOpenDay(idx){gCurDay=idx;var d=GUIDE_DATA[idx];if(!d)return;document.g
 function gNavDay(dir){var next=gCurDay+dir;if(next>=0&&next<20)gOpenDay(next);}
 function gTog(id){var el=document.getElementById(id);if(el){if(el.classList.contains('gshow'))el.classList.remove('gshow');else el.classList.add('gshow');}}
 function gMarkDone(){if(gDoneDays.indexOf(gCurDay)<0){gDoneDays.push(gCurDay);try{localStorage.setItem('guide_done',JSON.stringify(gDoneDays));}catch(e){}}document.getElementById('gdone-btn').style.display='none';document.getElementById('gdone-check').className='gdone-check gshow';var pct=Math.round(gDoneDays.length/20*100);document.getElementById('gpbar-fill').style.width=pct+'%';document.getElementById('gpbar-lbl').textContent=gDoneDays.length+'/20 күн';document.getElementById('gpbar-pct').textContent=pct+'%';if(gDoneDays.length===20)alert('🏆 КЕРЕМЕТ! 20 күн аяқталды! Сен чемпионсың!');}
+}
 </script>
 </body>
 </html>
