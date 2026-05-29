@@ -357,10 +357,20 @@ input,textarea{-webkit-user-select:text!important;user-select:text!important;fon
     <div class="trial-bar" id="trial-bar">⏳ Тегін: 5 күн</div>
   </div>
   <div id="locked-section" style="display:none">
-    <div class="locked-box">
-      <h3>🔒 Тегін мерзім аяқталды</h3>
-      <p>Промокод енгіз және жалғастыр!</p>
-      <div class="promo-row"><input type="text" id="promo-inp" placeholder="ПРОМОКОД..."><button onclick="applyPromo()">✅</button></div>
+    <div style="margin:14px 15px;background:linear-gradient(135deg,rgba(108,99,255,.15),rgba(162,155,254,.1));border:1px solid rgba(108,99,255,.35);border-radius:18px;padding:20px 16px">
+      <div style="text-align:center;margin-bottom:14px">
+        <div style="font-size:2rem;margin-bottom:6px">🔐</div>
+        <div style="font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:4px">5 тегін күн аяқталды</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.6);font-weight:700">Жалғастыру үшін промокод енгіз</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input type="text" id="promo-inp" placeholder="ПРОМОКОД..." style="flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(108,99,255,.4);border-radius:11px;padding:12px 14px;font-size:1rem;font-weight:800;color:#fff;outline:none;text-transform:uppercase;letter-spacing:2px;-webkit-user-select:text!important;user-select:text!important">
+        <button onclick="applyPromo()" style="background:linear-gradient(135deg,#6C63FF,#A29BFE);color:#fff;border:none;border-radius:11px;padding:12px 16px;font-size:.95rem;font-weight:800;touch-action:manipulation">✅</button>
+      </div>
+      <div style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:12px;padding:11px 13px">
+        <div style="font-size:.75rem;font-weight:800;color:#FFD700;margin-bottom:4px">💳 Промокод алу:</div>
+        <div style="font-size:.78rem;font-weight:700;color:rgba(255,255,255,.65);line-height:1.7">Kaspi → Платежи → ОО "Мұғалім"<br>Сумма: <strong style="color:#fff">8 785 ₸</strong><br>Чек: <strong style="color:#43E97B">+7 708 542 5778</strong> (WhatsApp)</div>
+      </div>
     </div>
   </div>
   <div id="day-locked-section" style="display:none">
@@ -636,7 +646,25 @@ function isDayLocked(){
   var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
   var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
   if(!allDone)return false;
+  // All done — locked until next calendar day (00:00)
   return getLastAdvancedDate(cu.grade)===getTodayKey();
+}
+
+function tryAdvanceDay(){
+  // Called every time user opens the app
+  // If last completion was on a PREVIOUS calendar day → advance currentDay
+  if(!cu)return;
+  var lad=getLastAdvancedDate(cu.grade);
+  if(!lad)return; // Never completed any day
+  var today=getTodayKey();
+  if(lad!==today){
+    // New day has started since last completion → advance
+    var newDay=(parseInt(cu.currentDay)||1)+1;
+    if(newDay>30)newDay=30;
+    cu.currentDay=newDay;
+    saveUser();
+    console.log('Day advanced to',newDay);
+  }
 }
 function isLocked(){
   if(!cu)return true;
@@ -728,6 +756,7 @@ function doRegister(){
         doneTasks:r.done_tasks||{},doneBySubj:r.done_by_subj||{kaz:0,eng:0,math:0,logic:0},
         totalDone:r.total_done||0,trialDays:r.trial_days||5,activated:r.activated||false,daysUsed:r.days_used||0};
       localStorage.setItem('camp_u'+selGrade,JSON.stringify(cu));
+      tryAdvanceDay();
       viewDay=0;renderDash();goPage('pg-dash');
       showSync('✅ Қош келдің, '+cu.name+'!',false);
     } else {
@@ -782,9 +811,17 @@ function doLogout(){cu=null;if(countdownInterval)clearInterval(countdownInterval
 
 function updateTrialUI(){
   var bar=document.getElementById('trial-bar');if(!bar||!cu)return;
-  if(cu.activated){bar.textContent='✅ Белсендірілген — 30 күн';bar.style.color='#43E97B';}
-  else if(isLocked()){bar.textContent='🔒 Тегін мерзім аяқталды — Промокод керек';bar.style.color='#FF6584';}
-  else{bar.textContent='⏳ Тегін: '+((cu.trialDays||5)-(cu.daysUsed||0))+' күн қалды';bar.style.color='#FFD700';}
+  if(cu.activated){
+    bar.textContent='✅ 30 күн ашық — Белсендірілген!';
+    bar.style.cssText='background:rgba(67,233,123,.15);border:1px solid rgba(67,233,123,.3);border-radius:10px;padding:6px 12px;margin-top:8px;font-size:.74rem;font-weight:800;color:#43E97B;text-align:center';
+  } else if(isLocked()){
+    bar.textContent='🔒 Тегін мерзім аяқталды';
+    bar.style.cssText='background:rgba(255,101,132,.12);border:1px solid rgba(255,101,132,.3);border-radius:10px;padding:6px 12px;margin-top:8px;font-size:.74rem;font-weight:800;color:#FF6584;text-align:center';
+  } else {
+    var left=(cu.trialDays||5)-(cu.daysUsed||0);
+    bar.textContent='⏳ Тегін: '+left+' күн қалды';
+    bar.style.cssText='background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.25);border-radius:10px;padding:6px 12px;margin-top:8px;font-size:.74rem;font-weight:800;color:#FFD700;text-align:center';
+  }
 }
 
 function renderDash(){
