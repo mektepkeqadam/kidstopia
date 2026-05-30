@@ -375,9 +375,12 @@ input,textarea{-webkit-user-select:text!important;user-select:text!important;fon
     </div>
   </div>
   <div id="day-locked-section" style="display:none">
-    <div class="day-locked-box">
-      <p>⏰ Бүгінгі тапсырмаларды орындадың!<br>Келесі күн <strong style="color:#FFD700">00:00</strong>-де ашылады.</p>
-      <div class="countdown" id="countdown-timer">--:--:--</div>
+    <div style="margin:12px 15px;background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(162,155,254,.08));border:1px solid rgba(108,99,255,.25);border-radius:16px;padding:16px;text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:6px">🎉</div>
+      <div style="font-size:.9rem;font-weight:800;color:#fff;margin-bottom:3px" id="day-done-label">Бүгінгі тапсырмалар аяқталды!</div>
+      <div style="font-size:.75rem;color:rgba(255,255,255,.55);font-weight:700;margin-bottom:10px">Келесі күн ашылуына:</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:#FFD700;letter-spacing:2px" id="countdown-timer">--:--:--</div>
+      <div style="margin-top:10px;font-size:.75rem;font-weight:800;color:rgba(255,255,255,.4)" id="days-progress-bar"></div>
     </div>
   </div>
   <div id="dash-content">
@@ -659,36 +662,34 @@ function tryAdvanceDay(){
   var lad=getLastAdvancedDate(cu.grade);
   if(!lad)return;
   var today=getTodayKey();
-  if(lad===today)return; // Already processed today
-  // New calendar day → can advance
-  var currentDay=parseInt(cu.currentDay)||1;
-  if(currentDay>=30)return;
-  // Check if current day tasks are done (should advance)
-  var g=String(cu.grade),d=String(currentDay);
+  if(lad===today)return;
+  // New calendar day - check if we should advance
+  var g=String(cu.grade),cd=parseInt(cu.currentDay)||1;
+  if(cd>=30)return;
+  var d=String(cd);
   var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
   var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
-  if(allDone){
-    // Advance to next day
-    cu.currentDay=currentDay+1;
+  if(!allDone)return; // Current day not done - don't advance
+  // Check if advancing would hit the promo wall
+  if(!cu.activated&&(cu.daysUsed||0)>=(cu.trialDays||5)){
+    return; // Locked - don't advance, show promo prompt
+  }
+  // Advance
+  cu.currentDay=cd+1;
+  if(cu.currentDay>30)cu.currentDay=30;
+  saveUser();
+  // Check further days
+  var maxAdv=5;
+  while(maxAdv-->0){
+    var nd=parseInt(cu.currentDay);
+    if(nd>=30)break;
+    if(!cu.activated&&(cu.daysUsed||0)>=(cu.trialDays||5))break;
+    var ndt=(ALL_TASKS[g]&&ALL_TASKS[g][String(nd)])||[];
+    var nDone=ndt.length>0&&ndt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
+    if(!nDone)break;
+    cu.currentDay=nd+1;
     if(cu.currentDay>30)cu.currentDay=30;
     saveUser();
-    // Check if next day is ALSO already done (catch-up scenario)
-    // Keep advancing until we find an incomplete day or reach today
-    var maxAdvance=5; // Safety limit
-    while(maxAdvance>0){
-      maxAdvance--;
-      var nd=parseInt(cu.currentDay);
-      if(nd>=30)break;
-      var ndt=(ALL_TASKS[g]&&ALL_TASKS[g][String(nd)])||[];
-      var nDone=ndt.length>0&&ndt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
-      if(nDone){
-        cu.currentDay=nd+1;
-        if(cu.currentDay>30)cu.currentDay=30;
-        saveUser();
-      } else {
-        break; // Found an incomplete day - stop here
-      }
-    }
   }
 }
 function isLocked(){
@@ -836,15 +837,16 @@ function doLogout(){cu=null;if(countdownInterval)clearInterval(countdownInterval
 
 function updateTrialUI(){
   var bar=document.getElementById('trial-bar');if(!bar||!cu)return;
+  var used=cu.daysUsed||0,total=cu.trialDays||5;
   if(cu.activated){
     bar.textContent='✅ 30 күн ашық — Белсендірілген!';
     bar.style.cssText='background:rgba(67,233,123,.15);border:1px solid rgba(67,233,123,.3);border-radius:10px;padding:6px 12px;margin-top:8px;font-size:.74rem;font-weight:800;color:#43E97B;text-align:center';
-  } else if(isLocked()){
-    bar.textContent='🔒 Тегін мерзім аяқталды';
+  }else if(isLocked()){
+    bar.textContent='🔒 Тегін аяқталды ('+used+'/'+total+') — Промокод керек';
     bar.style.cssText='background:rgba(255,101,132,.12);border:1px solid rgba(255,101,132,.3);border-radius:10px;padding:6px 12px;margin-top:8px;font-size:.74rem;font-weight:800;color:#FF6584;text-align:center';
-  } else {
-    var left=(cu.trialDays||5)-(cu.daysUsed||0);
-    bar.textContent='⏳ Тегін: '+left+' күн қалды';
+  }else{
+    var left=total-used;
+    bar.textContent='⏳ Тегін: '+used+'/'+total+' күн аяқталды ('+left+' қалды)';
     bar.style.cssText='background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.25);border-radius:10px;padding:6px 12px;margin-top:8px;font-size:.74rem;font-weight:800;color:#FFD700;text-align:center';
   }
 }
@@ -874,6 +876,17 @@ function renderDash(){
       ls.style.display='block';dls.style.display='none';dc.style.display='none';
     } else if(isDayLocked()&&viewDay===0){
       ls.style.display='none';dls.style.display='block';dc.style.display='none';
+      // Update day done label
+      var dlabel=document.getElementById('day-done-label');
+      if(dlabel)dlabel.textContent=(parseInt(cu.currentDay)-1)+'-күн аяқталды! 🎉';
+      // Update days progress
+      var dpbar=document.getElementById('days-progress-bar');
+      if(dpbar&&!cu.activated){
+        var d2=cu.daysUsed||0,t2=cu.trialDays||5;
+        var dotsHtml='';
+        for(var di=0;di<t2;di++){dotsHtml+=(di<d2)?'<span style="color:#43E97B;font-size:1rem">●</span>':'<span style="color:rgba(255,255,255,.2);font-size:1rem">●</span>';}
+        dpbar.innerHTML=dotsHtml+' <span style="color:#FFD700">'+d2+'/'+t2+'</span>';
+      }
       startCountdown();
     } else {
       ls.style.display='none';dls.style.display='none';dc.style.display='block';
@@ -1029,16 +1042,18 @@ function checkDayCompletion(){
   var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
   var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
   if(allDone){
-    // Mark this day as completed today - next day opens at 00:00
-    setLastAdvancedDate(cu.grade);
-    // Increment daysUsed for trial tracking (only once per calendar day)
-    var todayKey=getTodayKey();
-    if(localStorage.getItem('camp_du_'+cu.grade)!==todayKey){
-      localStorage.setItem('camp_du_'+cu.grade,todayKey);
+    // Track which days are completed
+    var doneKey='camp_dayDone_'+cu.grade+'_'+d;
+    var alreadyCounted=localStorage.getItem(doneKey);
+    if(!alreadyCounted){
+      // First time completing this specific day → count it
+      localStorage.setItem(doneKey,'1');
       cu.daysUsed=(cu.daysUsed||0)+1;
     }
+    // Mark completion date for midnight unlock
+    setLastAdvancedDate(cu.grade);
     saveUser();
-    renderDash(); // Show countdown
+    renderDash();
   }
 }
 function celebrate(){
@@ -1091,7 +1106,7 @@ function renderAdminStudents(g){
     var d=document.createElement('div');d.className='student-card';
     d.innerHTML='<div class="sc-rank">'+medal+'</div>'
       +'<div class="sc-info"><div class="sc-name">'+(icons[s.grade]||'')+'  '+s.name+'</div>'
-      +'<div class="sc-meta">'+s.grade+'-сынып · '+(s.current_day||1)+'-күн · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅':'⏳ '+(s.days_used||0)+'/5')+'</div>'
+      +'<div class="sc-meta">'+s.grade+'-сынып · '+(s.current_day||1)+'-күн · '+(s.total_done||0)+' тапсырма · '+(s.activated?'✅ Белсенді':'⏳ '+(s.days_used||0)+'/'+(s.trial_days||5)+' аяқт.')+'</div>'
       +'<div class="sc-bar"><div class="sc-fill" style="width:'+pct+'%"></div></div></div>'
       +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">'
       +'<button class="sc-adv" data-id=\''+s.id+'\' data-day=\''+( s.current_day||1)+'\' onclick="var b=this;advanceStudentDay(b.dataset.id,\''+s.name+'\',b.dataset.day)">➡️ '+((s.current_day||1)+1)+'</button>'
