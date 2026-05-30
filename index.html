@@ -728,7 +728,12 @@ function selectGrade(g){
       cu.grade=parseInt(cu.grade)||g;
       cu.currentDay=parseInt(cu.currentDay)||1;
       if(cu.currentDay<1||cu.currentDay>30)cu.currentDay=1;
-      tryAdvanceDay(); // Check if new day should unlock
+      var _mdu=Math.max(0,cu.currentDay-1);
+      if((cu.daysUsed||0)<_mdu){
+        cu.daysUsed=_mdu;
+        for(var _ddi=1;_ddi<cu.currentDay;_ddi++){if(!localStorage.getItem('camp_dayDone_'+g+'_'+_ddi))localStorage.setItem('camp_dayDone_'+g+'_'+_ddi,'1');}
+      }
+      tryAdvanceDay();
       viewDay=0;
       renderDash();
       goPage('pg-dash');
@@ -741,7 +746,12 @@ function selectGrade(g){
         cu.doneBySubj=r.done_by_subj||{kaz:0,eng:0,math:0,logic:0};
         cu.totalDone=r.total_done||0;cu.trialDays=r.trial_days||5;
         cu.activated=r.activated||false;cu.daysUsed=r.days_used||0;
+        // Fix old users: daysUsed must be >= currentDay-1
+        var _minDU=Math.max(0,(cu.currentDay||1)-1);
+        if(cu.daysUsed<_minDU){cu.daysUsed=_minDU;}
+        for(var _di=1;_di<(cu.currentDay||1);_di++){var _dk='camp_dayDone_'+g+'_'+_di;if(!localStorage.getItem(_dk))localStorage.setItem(_dk,'1');}
         localStorage.setItem('camp_u'+g,JSON.stringify(cu));
+        tryAdvanceDay();
         renderDash();
       });
       return;
@@ -1042,15 +1052,13 @@ function checkDayCompletion(){
   var dt=(ALL_TASKS[g]&&ALL_TASKS[g][d])||[];
   var allDone=dt.length>0&&dt.every(function(t){return cu.doneTasks&&cu.doneTasks[t.id];});
   if(allDone){
-    // Track which days are completed
+    // Count this completed day (once per unique day)
     var doneKey='camp_dayDone_'+cu.grade+'_'+d;
-    var alreadyCounted=localStorage.getItem(doneKey);
-    if(!alreadyCounted){
-      // First time completing this specific day → count it
+    if(!localStorage.getItem(doneKey)){
       localStorage.setItem(doneKey,'1');
       cu.daysUsed=(cu.daysUsed||0)+1;
     }
-    // Mark completion date for midnight unlock
+    // ALWAYS set lastAdvancedDate so countdown shows correctly
     setLastAdvancedDate(cu.grade);
     saveUser();
     renderDash();
@@ -1138,15 +1146,16 @@ function advanceStudentDay(id,name,currentDay){
   var nextDay=(parseInt(currentDay)||1)+1;
   if(nextDay>30){alert(name+' 30-күнде тұр — максимум!');return;}
   if(!confirm('➡️ «'+name+'»\n'+currentDay+'-күн → '+nextDay+'-күнге өткізу?'))return;
+  // daysUsed = nextDay - 1 (days completed before the new day)
+  var newDaysUsed=nextDay-1;
   sf('camp_students?id=eq.'+id,'PATCH',{
     current_day:nextDay,
+    days_used:newDaysUsed,
     updated_at:new Date().toISOString()
-  }).then(function(r){
+  }).then(function(){
     showSync('✅ '+name+' → '+nextDay+'-күнге өтті!',false);
     loadAdminData();
-  }).catch(function(){
-    showSync('⚠️ Қате — интернет тексеріңіз',true);
-  });
+  }).catch(function(){showSync('⚠️ Қате!',true);});
 }
 
 function advanceAllDay(){
